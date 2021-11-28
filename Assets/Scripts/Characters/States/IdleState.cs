@@ -27,7 +27,6 @@ namespace DP2D
 
         public void Tick()
         {
-            //_controller.ThrowGrenade(_player.ThrowInput, _player.ThrowHash, _animator);
         }
     }
 }

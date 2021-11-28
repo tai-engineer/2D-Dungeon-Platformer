@@ -8,14 +8,18 @@ namespace DP2D
     {
         PlayerCharacter _player;
         Animator _animator;
-        public LandState(PlayerCharacter player, Animator animator)
+        CharacterPhysic _controller;
+        public LandState(CharacterPhysic controller, PlayerCharacter player, Animator animator)
         {
+            _controller = controller;
             _player = player;
             _animator = animator;
         }
         public void OnEnter()
         {
             _animator.SetBool(_player.LandHash, true);
+            _controller.LandingPrepare();
+            _controller.ResetMoveVector();
         }
 
         public void OnExit()
@@ -23,6 +27,8 @@ namespace DP2D
             _animator.SetBool(_player.LandHash, false);
         }
 
-        public void Tick() { }
+        public void Tick()
+        {
+        }
     }
 }

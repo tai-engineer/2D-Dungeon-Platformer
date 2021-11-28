@@ -14,14 +14,16 @@ namespace DP2D
         SpriteRenderer _spriteRenderer;
         #endregion
         #region Serializable Fields
+        [SerializeField] bool _originalSpriteFacingLeft;
         [Header("Collision")]
         [SerializeField, Tooltip("Raycast length starting from edge of box collider")]
         float _verticalCheckDistance;
-        [SerializeField] bool _originalSpriteFacingLeft;
+        [SerializeField] LayerMask _verticalCheckLayer;
 
         [Header("Movement")]
         [SerializeField] float _maxGroundSpeed;
         [SerializeField] float _maxJumpSpeed;
+        [SerializeField] float _maxFallSpeed;
 
         [Header("Shoot")]
         [SerializeField] Transform _shootPosition;
@@ -41,7 +43,7 @@ namespace DP2D
         public float Gravity { get; private set; }
         public Vector2 MoveVector { get { return _moveVector; } }
         public float MaxJumpSpeed { get { return _maxJumpSpeed; } }
-        public bool IsLanded { get; private set; }
+        public bool IsLanding { get; private set; }
         public Vector2 FaceDirection { get; private set; }
         void Awake()
         {
@@ -58,34 +60,39 @@ namespace DP2D
             Vector2 movement = _moveVector * Time.deltaTime;
             _rb2D.MovePosition(_rb2D.position + movement);
         }
-        void Update()
-        {
-            // TODO: Use in player's states
-            VerticalCollisionCheck(true);
-            VerticalCollisionCheck(false);
-        }
+
         public bool VerticalCollisionCheck(bool above)
         {
             Vector2 size = _boxCollider.size;
-            Vector2 center = _boxCollider.bounds.center;
             Vector2 direction = above ? Vector2.up : Vector2.down;
-            float offset = 0.1f;
-            Vector2 middle = center + direction * (size.y * 0.5f + offset);
+            Vector2 center = (Vector2)_boxCollider.bounds.center;
+            Vector2 middle = center + direction * (size.y * 0.4f);
+            Vector2 bottom = center + direction * (size.y * 0.5f);
+            float raycastDistance = 0.5f + _verticalCheckDistance;
 
             Vector2[] raycast = new Vector2[3];
-            raycast[0] = middle + Vector2.left * size.x * 0.5f;
+            raycast[0] = middle + Vector2.left * size.x * 0.4f;
             raycast[1] = middle;
-            raycast[2] = middle + Vector2.right * size.x * 0.5f;
+            raycast[2] = middle + Vector2.right * size.x * 0.4f;
+
             RaycastHit2D[] hits = new RaycastHit2D[3];
-            Vector2[] normals = new Vector2[3];
-            Vector2 result = Vector2.zero;
+            Vector2[] result = new Vector2[3];
+            Vector2 normals = Vector2.zero;
             for(int i = 0; i < raycast.Length; i++)
             {
-                hits[i] = Physics2D.Raycast(raycast[i], direction, _verticalCheckDistance);
-                normals[i] = hits[i].collider ? hits[i].normal : Vector2.zero;
-                result += normals[i];
+                hits[i] = Physics2D.Raycast(raycast[i], direction, raycastDistance, _verticalCheckLayer);
+                Debug.DrawRay(raycast[i], direction * raycastDistance);
+                result[i] = hits[i].collider  != null ? hits[i].normal : Vector2.zero;
+                normals += result[i];
             }
-            return Mathf.Approximately(result.y, 3f);
+            normals.Normalize();
+            if (Mathf.Approximately(normals.x, 0f) && Mathf.Approximately(normals.y, 0f))
+                return false;
+
+            if (above)
+                return hits[1].point.y < (bottom.y + _verticalCheckDistance);
+
+            return hits[1].point.y > (bottom.y - _verticalCheckDistance);
         }
         public void SetHorizontalMovement(float value)
         {
@@ -112,17 +119,28 @@ namespace DP2D
             SetHorizontalMovement(input * _maxGroundSpeed);
             UpdateSpriteFacing();
         }
+
         public void VerticalMove()
         {
+            if (_moveVector.y <= -_maxFallSpeed)
+            {
+                SetVerticalMovement(-_maxFallSpeed);
+                return;
+            }
             AddVerticalMovement(Gravity * Time.deltaTime);
         }
         public void LandingPrepare()
         {
-            IsLanded = false;
+            IsLanding = true;
         }
+
+
+        /// <summary>
+        /// This function is called by Land animation event
+        /// </summary>
         public void LandingEnd()
         {
-            IsLanded = true;
+            IsLanding = false;
         }
         public void Shoot()
         {

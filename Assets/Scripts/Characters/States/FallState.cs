@@ -28,10 +28,6 @@ namespace DP2D
         public void Tick()
         {
             _controller.VerticalMove();
-            if (Mathf.Approximately(_controller.MoveVector.y, _controller.Gravity))
-            {
-                _controller.SetVerticalMovement(_controller.Gravity);
-            }
         }
     }
 }

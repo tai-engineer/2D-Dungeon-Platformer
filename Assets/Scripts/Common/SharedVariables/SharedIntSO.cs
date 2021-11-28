@@ -3,7 +3,7 @@ using System;
 namespace DP2D
 {
     [CreateAssetMenu(fileName ="New Float Value", menuName ="Shared Variable/Int")]
-    public class SharedInt : ScriptableObject
+    public class SharedIntSO : ScriptableObject
     {
         [SerializeField] int _initialValue, _currentValue;
         [SerializeField] bool _constant;

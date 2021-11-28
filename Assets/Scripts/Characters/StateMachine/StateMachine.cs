@@ -31,7 +31,6 @@ namespace DP2D
             }
             _currentState?.OnExit();
             _currentState = state;
-
             _transitions.TryGetValue(_currentState.GetType(), out _currentTransitions);
             if (_currentTransitions == null)
                 _currentTransitions = EmptyTransition;

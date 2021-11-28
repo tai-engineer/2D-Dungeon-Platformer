@@ -10,19 +10,19 @@ namespace DP2D
         [SerializeField] InputReaderSO _input;
 
         [Header("Stats")]
-        [SerializeField] SharedInt _currentHealth;
-        [SerializeField] SharedInt _startingHealth;
-        [SerializeField] SharedInt _currentEnergy;
-        [SerializeField] SharedInt _startingEnergy;
+        [SerializeField] SharedIntSO _currentHealth;
+        [SerializeField] SharedIntSO _startingHealth;
+        [SerializeField] SharedIntSO _currentEnergy;
+        [SerializeField] SharedIntSO _startingEnergy;
 
         [Header("Animation")]
-        [SerializeField] string _sprintParameter;
-        [SerializeField] string _moveParameter;
-        [SerializeField] string _throwParameter;
-        [SerializeField] string _jumpParameter;
-        [SerializeField] string _landParameter;
-        [SerializeField] string _fallParameter;
-        [SerializeField] string _shootParameter;
+        [SerializeField] string _sprintParameter = "";
+        [SerializeField] string _moveParameter = "";
+        [SerializeField] string _throwParameter = "";
+        [SerializeField] string _jumpParameter = "";
+        [SerializeField] string _landParameter = "";
+        [SerializeField] string _fallParameter = "";
+        [SerializeField] string _shootParameter = "";
 
         #region Input
         public Vector3 MoveInput { get; private set; }
@@ -163,13 +163,18 @@ namespace DP2D
         #region Animation Methods
         void GetAnimationHash()
         {
-            SprintHash = Animator.StringToHash(_sprintParameter);
-            MoveHash = Animator.StringToHash(_moveParameter);
-            ThrowHash = Animator.StringToHash(_throwParameter);
-            JumpHash = Animator.StringToHash(_jumpParameter);
-            LandHash = Animator.StringToHash(_landParameter);
-            FallHash = Animator.StringToHash(_fallParameter);
-            ShootHash = Animator.StringToHash(_shootParameter);
+            SprintHash = GetHash(_sprintParameter);
+            MoveHash = GetHash(_moveParameter);
+            ThrowHash = GetHash(_throwParameter);
+            JumpHash = GetHash(_jumpParameter);
+            LandHash = GetHash(_landParameter);
+            FallHash = GetHash(_fallParameter);
+            ShootHash = GetHash(_shootParameter);
+        }
+
+        int GetHash(string str)
+        {
+            return (str != "") ? Animator.StringToHash(str) : 0;
         }
         #endregion
     }
