@@ -6,29 +6,26 @@ namespace DP2D
 {
     public class FallState : IState
     {
-        PlayerCharacter _player;
-        Animator _animator;
-        CharacterPhysic _controller;
-        public FallState(CharacterPhysic controller, PlayerCharacter player, Animator animator)
+        public FallState(PlayerStateMachine stateMachine)
         {
-            _controller = controller;
-            _player = player;
-            _animator = animator;
+            controller = stateMachine.controller;
+            player = stateMachine.player;
+            animator = stateMachine.animator;
         }
-        public void OnEnter()
+        public override void OnEnter()
         {
-            _animator.SetBool(_player.FallHash, true);
+            animator.SetBool(player.FallHash, true);
         }
 
-        public void OnExit()
+        public override void OnExit()
         {
-            _animator.SetBool(_player.FallHash, false);
+            animator.SetBool(player.FallHash, false);
         }
 
-        public void Tick()
+        public override void Tick()
         {
-            _controller.VerticalMove();
-            _controller.HorizontalMove(_player.MoveInput.x);
+            controller.VerticalMove();
+            controller.HorizontalMove(player.MoveInput.x);
         }
     }
 }

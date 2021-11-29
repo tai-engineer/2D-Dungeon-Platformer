@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DP2D
 {
-    public class ClimpState : IState
+    public class SlideState : IState
     {
         public override void OnEnter()
         {

@@ -25,20 +25,6 @@ namespace DP2D
         [SerializeField] float _groundAcceleration;
         [SerializeField] float _maxJumpSpeed;
         [SerializeField] float _maxFallSpeed;
-
-        [Header("Shoot")]
-        [SerializeField] Transform _shootPosition;
-
-        //[Header("Grenade")]
-        //[SerializeField] Grenade _grenadePF;
-        //[SerializeField] GameObject _chargeBarRoot;
-        //[SerializeField] Image _chargeBar;
-        //[SerializeField] float _grenadeCooldown;
-        //[SerializeField] float _maxRange = 5f;
-        //[Range(30f, 80f)]
-        //[SerializeField] float _angle = 45f;
-        //[SerializeField] float _maxHoldTime = 2f;
-
         #endregion
         Vector2 _moveVector;
         public float Gravity { get; private set; }
@@ -138,56 +124,6 @@ namespace DP2D
         {
             IsLanding = false;
         }
-        public void Shoot()
-        {
-            //BulletPool pool = PoolManager.GetPool<BulletPool>();
-
-            //pool.Pop(_shootPosition.position, false);
-        }
-        #region Grenade
-        //float _throwHoldTime;
-        //bool _isHolding = false;
-        //float fraction;
-        //float _grenadeTime;
-        //public void ThrowGrenade(bool throwInput, int animationHash, Animator animator)
-        //{
-        //    if ((Time.time - _grenadeTime) < _grenadeCooldown)
-        //        return;
-
-        //    if (throwInput == false && _isHolding == true)
-        //    {
-        //        float range = Mathf.Lerp(0.1f, _maxRange, fraction);
-        //        Grenade grenade = Instantiate(_grenadePF, transform.position, Quaternion.identity);
-        //        grenade.Launch(range, _angle, FaceDirection);
-
-        //        _throwHoldTime = 0f;
-        //        _isHolding = false;
-        //        _chargeBar.fillAmount = 0f;
-        //        _chargeBarRoot.SetActive(false);
-        //        animator.SetTrigger(animationHash);
-        //        _grenadeTime = Time.time;
-        //        return;
-        //    }
-        //    if (throwInput == true)
-        //    {
-        //        if (_isHolding)
-        //        {
-        //            _throwHoldTime += Time.deltaTime;
-        //            if (_throwHoldTime > _maxHoldTime)
-        //            {
-        //                _throwHoldTime = _maxHoldTime;
-        //            }
-        //            fraction = _throwHoldTime / _maxHoldTime;
-        //            _chargeBar.fillAmount = fraction;
-        //        }
-        //        else
-        //        {
-        //            _isHolding = true;
-        //            _chargeBarRoot.SetActive(true);
-        //        }
-        //    }
-        //}
-        #endregion
         void UpdateSpriteFacing()
         {
             FaceDirection = _moveVector.x < 0 ? Vector2.left : _moveVector.x > 0 ? Vector2.right : FaceDirection;

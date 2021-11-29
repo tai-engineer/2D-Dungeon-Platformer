@@ -6,26 +6,23 @@ namespace DP2D
 {
     public class IdleState : IState
     {
-        CharacterPhysic _controller;
-        PlayerCharacter _player;
-        Animator _animator;
-        public IdleState(CharacterPhysic controller, PlayerCharacter player, Animator animator)
+        public IdleState(PlayerStateMachine stateMachine)
         {
-            _controller = controller;
-            _player = player;
-            _animator = animator;
+            controller = stateMachine.controller;
+            player = stateMachine.player;
+            animator = stateMachine.animator;
         }
-        public void OnEnter()
+        public override void OnEnter()
         {
-            _controller.ResetMoveVector();
+            controller.ResetMoveVector();
         }
 
-        public void OnExit()
+        public override void OnExit()
         {
 
         }
 
-        public void Tick()
+        public override void Tick()
         {
             
         }

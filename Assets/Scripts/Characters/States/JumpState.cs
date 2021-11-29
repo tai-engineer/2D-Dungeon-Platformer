@@ -6,31 +6,28 @@ namespace DP2D
 {
     public class JumpState : IState
     {
-        CharacterPhysic _controller;
-        PlayerCharacter _player;
-        Animator _animator;
-        public JumpState(CharacterPhysic controller, PlayerCharacter player, Animator animator)
+        public JumpState(PlayerStateMachine stateMachine)
         {
-            _controller = controller;
-            _player = player;
-            _animator = animator;
+            controller = stateMachine.controller;
+            player = stateMachine.player;
+            animator = stateMachine.animator;
         }
-        public void OnEnter()
+        public override void OnEnter()
         {
-            _animator.SetBool(_player.JumpHash, true);
+            animator.SetBool(player.JumpHash, true);
             // Initial jump force
-            _controller.SetVerticalMovement(_controller.MaxJumpSpeed);
+            controller.SetVerticalMovement(controller.MaxJumpSpeed);
         }
 
-        public void OnExit()
+        public override void OnExit()
         {
-            _animator.SetBool(_player.JumpHash, false);
+            animator.SetBool(player.JumpHash, false);
         }
 
-        public void Tick()
+        public override void Tick()
         {
-            _controller.VerticalMove();
-            _controller.HorizontalMove(_player.MoveInput.x);
+            controller.VerticalMove();
+            controller.HorizontalMove(player.MoveInput.x);
         }
     }
 }

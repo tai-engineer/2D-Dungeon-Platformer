@@ -6,28 +6,25 @@ namespace DP2D
 {
     public class MoveState : IState
     {
-        CharacterPhysic _controller;
-        PlayerCharacter _player;
-        Animator _animator;
-        public MoveState(CharacterPhysic controller, PlayerCharacter player, Animator animator)
+        public MoveState(PlayerStateMachine stateMachine)
         {
-            _controller = controller;
-            _animator = animator;
-            _player = player;
+            controller = stateMachine.controller;
+            animator = stateMachine.animator;
+            player = stateMachine.player;
         }
-        public void OnEnter()
+        public override void OnEnter()
         {
-            _animator.SetBool(_player.MoveHash, true);
+            animator.SetBool(player.MoveHash, true);
         }
 
-        public void OnExit()
+        public override void OnExit()
         {
-            _animator.SetBool(_player.MoveHash, false);
+            animator.SetBool(player.MoveHash, false);
         }
 
-        public void Tick()
+        public override void Tick()
         {
-            _controller.HorizontalMove(_player.MoveInput.x);
+            controller.HorizontalMove(player.MoveInput.x);
         }
     }
 }

@@ -9,24 +9,24 @@ namespace DP2D
     public class PlayerStateMachine : MonoBehaviour
     {
         StateMachine _stateMachine;
-        CharacterPhysic _controller;
-        Animator _animator;
-        PlayerCharacter _player;
+
+        public CharacterPhysic controller;
+        public Animator animator;
+        public PlayerCharacter player;
         void Awake()
         {
-            _controller = GetComponent<CharacterPhysic>();
-            _animator = GetComponent<Animator>();
-            _player = GetComponent<PlayerCharacter>();
+            controller = GetComponent<CharacterPhysic>();
+            animator = GetComponent<Animator>();
+            player = GetComponent<PlayerCharacter>();
 
             _stateMachine = new StateMachine();
             
-            var _idleState = new IdleState(_controller, _player, _animator);
-            var _runState = new MoveState(_controller, _player, _animator);
+            var _idleState = new IdleState(this);
+            var _runState = new MoveState(this);
             //var _climpState = new ClimpState();
-            var _jumpState = new JumpState(_controller, _player, _animator);
-            var _fallState = new FallState(_controller, _player, _animator);
-            var _landState = new LandState(_controller, _player, _animator);
-            //var _shootState = new ShootState(_controller, _player, _animator);
+            var _jumpState = new JumpState(this);
+            var _fallState = new FallState(this);
+            var _landState = new LandState(this);
 
             At(_idleState, _runState, IsMoving);
             At(_idleState, _jumpState, JumpInput);
@@ -40,12 +40,6 @@ namespace DP2D
             At(_fallState, _landState, IsGrounded);
 
             At(_landState, _idleState, FinishLanding);
-
-            //At(_shootState, _idleState, IsStopMoving);
-            //At(_shootState, _runState, IsMoving);
-            //At(_shootState, _jumpState, IsJumping);
-            //At(_shootState, _fallState, IsFalling);
-            //AtAny(_shootState, () => _player.ShootInput);
             _stateMachine.SetState(_idleState);
         }
         void Update()
@@ -55,12 +49,12 @@ namespace DP2D
 
         void At(IState from, IState to, Func<bool> condition) => _stateMachine.AddTransition(from, to, condition);
         void AtAny(IState to, Func<bool> condition) => _stateMachine.AddAnyTransition(to, condition);
-        bool IsMoving() => !Mathf.Approximately(_player.MoveInput.x, 0f);
+        bool IsMoving() => !Mathf.Approximately(player.MoveInput.x, 0f);
         bool IsStopMoving() => !IsMoving();
-        bool JumpInput() => _player.JumpInput;
-        bool IsGrounded() => _controller.VerticalCollisionCheck(false);
+        bool JumpInput() => player.JumpInput;
+        bool IsGrounded() => controller.VerticalCollisionCheck(false);
         bool IsNotGrounded() => !IsGrounded();
-        bool IsFalling() => _controller.MoveVector.y < 0f;
-        bool FinishLanding() => _controller.IsLanding == false;
+        bool IsFalling() => controller.MoveVector.y < 0f;
+        bool FinishLanding() => controller.IsLanding == false;
     }
 }

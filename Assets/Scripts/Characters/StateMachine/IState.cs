@@ -4,10 +4,13 @@ using UnityEngine;
 
 namespace DP2D
 {
-    public interface IState
+    public abstract class IState
     {
-        void Tick();
-        void OnEnter();
-        void OnExit();
+        protected CharacterPhysic controller;
+        protected PlayerCharacter player;
+        protected Animator animator;
+        public abstract void Tick();
+        public abstract void OnEnter();
+        public abstract void OnExit();
     }
 }

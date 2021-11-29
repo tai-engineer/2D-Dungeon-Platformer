@@ -6,29 +6,27 @@ namespace DP2D
 {
     public class LandState : IState
     {
-        PlayerCharacter _player;
-        Animator _animator;
-        CharacterPhysic _controller;
-        public LandState(CharacterPhysic controller, PlayerCharacter player, Animator animator)
+        public LandState(PlayerStateMachine stateMachine)
         {
-            _controller = controller;
-            _player = player;
-            _animator = animator;
+            controller = stateMachine.controller;
+            player = stateMachine.player;
+            animator = stateMachine.animator;
         }
-        public void OnEnter()
+        public override void OnEnter()
         {
-            _animator.SetBool(_player.LandHash, true);
-            _controller.LandingPrepare();
-            _controller.ResetMoveVector();
+            animator.SetBool(player.LandHash, true);
+            controller.LandingPrepare();
+            controller.ResetMoveVector();
         }
 
-        public void OnExit()
+        public override void OnExit()
         {
-            _animator.SetBool(_player.LandHash, false);
+            animator.SetBool(player.LandHash, false);
         }
 
-        public void Tick()
+        public override void Tick()
         {
+
         }
     }
 }
