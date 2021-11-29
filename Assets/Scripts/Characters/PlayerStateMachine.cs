@@ -27,6 +27,7 @@ namespace DP2D
             var _jumpState = new JumpState(this);
             var _fallState = new FallState(this);
             var _landState = new LandState(this);
+            var _slideState = new SlideState(this);
 
             At(_idleState, _runState, IsMoving);
             At(_idleState, _jumpState, JumpInput);
@@ -34,12 +35,18 @@ namespace DP2D
 
             At(_runState, _idleState, IsStopMoving);
             At(_runState, _jumpState, JumpInput);
+            At(_runState, _slideState, SlideInput);
 
             At(_jumpState, _fallState, IsFalling);
 
             At(_fallState, _landState, IsGrounded);
 
             At(_landState, _idleState, FinishLanding);
+
+            At(_slideState, _idleState, FinishSliding);
+            At(_slideState, _fallState, IsNotGrounded);
+            At(_slideState, _jumpState, JumpInput);
+
             _stateMachine.SetState(_idleState);
         }
         void Update()
@@ -56,5 +63,7 @@ namespace DP2D
         bool IsNotGrounded() => !IsGrounded();
         bool IsFalling() => controller.MoveVector.y < 0f;
         bool FinishLanding() => controller.IsLanding == false;
+        bool SlideInput() => player.SlideInput && controller.CanSlide;
+        bool FinishSliding() => controller.IsSliding == false;
     }
 }

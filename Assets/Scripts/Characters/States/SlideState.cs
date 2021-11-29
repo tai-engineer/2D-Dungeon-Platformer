@@ -6,19 +6,33 @@ namespace DP2D
 {
     public class SlideState : IState
     {
+        float _startTime;
+        public SlideState(PlayerStateMachine stateMachine)
+        {
+            controller = stateMachine.controller;
+            animator = stateMachine.animator;
+            player = stateMachine.player;
+        }
         public override void OnEnter()
         {
-            //throw new System.NotImplementedException();
+            controller.IsSliding = true;
+            animator.SetBool(player.SlideHash, true);
+            _startTime = Time.time;
         }
 
         public override void OnExit()
         {
-            //throw new System.NotImplementedException();
+            animator.SetBool(player.SlideHash, false);
+            controller.SlideEnd();
         }
 
         public override void Tick()
         {
-            //throw new System.NotImplementedException();
+            if((Time.time - _startTime) > controller.SlideDuration)
+            {
+                controller.IsSliding = false;
+                return;
+            }
         }
     }
 }

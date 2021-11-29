@@ -166,6 +166,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad6181858bb80a45907973aeda086b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 0}
+  animator: {fileID: 0}
+  player: {fileID: 0}
 --- !u!114 &1948696329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,6 +193,7 @@ MonoBehaviour:
   _landParameter: Land
   _fallParameter: Fall
   _shootParameter: 
+  _slideParameter: Slide
 --- !u!114 &1948696324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,4 +215,5 @@ MonoBehaviour:
   _groundAcceleration: 30
   _maxJumpSpeed: 4
   _maxFallSpeed: 2
-  _shootPosition: {fileID: 0}
+  _slideDuration: 0.3
+  _slideCooldown: 0.5

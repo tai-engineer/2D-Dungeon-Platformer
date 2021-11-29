@@ -13,6 +13,7 @@ public class InputReaderSO : ScriptableObject, GameInput.IPlayerInputActions
     public event UnityAction<bool> shootEvent = delegate { };
     public event UnityAction<bool> sprintEvent = delegate { };
     public event UnityAction<bool> throwEvent = delegate { };
+    public event UnityAction<bool> slideEvent = delegate { };
     void OnEnable()
     {
         if(_gameInput == null)
@@ -85,6 +86,18 @@ public class InputReaderSO : ScriptableObject, GameInput.IPlayerInputActions
         else if (context.phase == InputActionPhase.Canceled)
         {
             throwEvent.Invoke(false);
+        }
+    }
+
+    public void OnSlide(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            slideEvent.Invoke(true);
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            slideEvent.Invoke(false);
         }
     }
 }

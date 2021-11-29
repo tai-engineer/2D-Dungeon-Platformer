@@ -25,12 +25,20 @@ namespace DP2D
         [SerializeField] float _groundAcceleration;
         [SerializeField] float _maxJumpSpeed;
         [SerializeField] float _maxFallSpeed;
+        [SerializeField] float _slideDuration;
+        [SerializeField] float _slideCooldown;
         #endregion
         Vector2 _moveVector;
         public float Gravity { get; private set; }
         public Vector2 MoveVector { get { return _moveVector; } }
         public float MaxJumpSpeed { get { return _maxJumpSpeed; } }
+        public float SlideDuration { get { return _slideDuration; } }
         public bool IsLanding { get; private set; }
+        public bool CanSlide 
+        {
+            get => (Time.time - _slideEndTime) > _slideCooldown;
+        }
+        public bool IsSliding { get; set; }
         public Vector2 FaceDirection { get; private set; }
         void Awake()
         {
@@ -123,6 +131,11 @@ namespace DP2D
         public void LandingEnd()
         {
             IsLanding = false;
+        }
+        float _slideEndTime = 0f;
+        public void SlideEnd()
+        {
+            _slideEndTime = Time.time;
         }
         void UpdateSpriteFacing()
         {

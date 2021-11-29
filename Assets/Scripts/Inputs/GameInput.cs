@@ -65,6 +65,14 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Slide"",
+                    ""type"": ""Button"",
+                    ""id"": ""a177a164-12fe-4db3-9c34-b006e4d4d4db"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -177,6 +185,17 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""action"": ""Throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3b688ef3-abb7-4473-8a19-5aacac79277a"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -197,6 +216,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         m_PlayerInput_Jump = m_PlayerInput.FindAction("Jump", throwIfNotFound: true);
         m_PlayerInput_Sprint = m_PlayerInput.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerInput_Throw = m_PlayerInput.FindAction("Throw", throwIfNotFound: true);
+        m_PlayerInput_Slide = m_PlayerInput.FindAction("Slide", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -252,6 +272,7 @@ public class @GameInput : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerInput_Jump;
     private readonly InputAction m_PlayerInput_Sprint;
     private readonly InputAction m_PlayerInput_Throw;
+    private readonly InputAction m_PlayerInput_Slide;
     public struct PlayerInputActions
     {
         private @GameInput m_Wrapper;
@@ -262,6 +283,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         public InputAction @Jump => m_Wrapper.m_PlayerInput_Jump;
         public InputAction @Sprint => m_Wrapper.m_PlayerInput_Sprint;
         public InputAction @Throw => m_Wrapper.m_PlayerInput_Throw;
+        public InputAction @Slide => m_Wrapper.m_PlayerInput_Slide;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -289,6 +311,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Throw.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnThrow;
                 @Throw.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnThrow;
                 @Throw.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnThrow;
+                @Slide.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSlide;
+                @Slide.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSlide;
+                @Slide.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSlide;
             }
             m_Wrapper.m_PlayerInputActionsCallbackInterface = instance;
             if (instance != null)
@@ -311,6 +336,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Throw.started += instance.OnThrow;
                 @Throw.performed += instance.OnThrow;
                 @Throw.canceled += instance.OnThrow;
+                @Slide.started += instance.OnSlide;
+                @Slide.performed += instance.OnSlide;
+                @Slide.canceled += instance.OnSlide;
             }
         }
     }
@@ -332,5 +360,6 @@ public class @GameInput : IInputActionCollection, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
+        void OnSlide(InputAction.CallbackContext context);
     }
 }

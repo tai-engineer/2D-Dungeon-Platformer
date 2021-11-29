@@ -23,6 +23,7 @@ namespace DP2D
         [SerializeField] string _landParameter = "";
         [SerializeField] string _fallParameter = "";
         [SerializeField] string _shootParameter = "";
+        [SerializeField] string _slideParameter = "";
 
         #region Input
         public Vector3 MoveInput { get; private set; }
@@ -30,6 +31,7 @@ namespace DP2D
         public bool JumpInput { get; private set; }
         public bool ShootInput { get; private set; }
         public bool ThrowInput { get; private set; }
+        public bool SlideInput { get; private set; }
         #endregion
 
         #region Stats
@@ -66,6 +68,7 @@ namespace DP2D
         public int LandHash { get; private set; }
         public int FallHash { get; private set; }
         public int ShootHash { get; private set; }
+        public int SlideHash { get; private set; }
         #endregion
         #region Unity Executions
         protected override void Awake()
@@ -83,6 +86,7 @@ namespace DP2D
                 _input.sprintEvent += OnSprint;
                 _input.moveEvent   += OnMove;
                 _input.throwEvent   += OnThrow;
+                _input.slideEvent   += OnSlide;
             }
 
             Health = _startingHealth.Value;
@@ -98,6 +102,7 @@ namespace DP2D
                 _input.sprintEvent -= OnSprint;
                 _input.moveEvent   -= OnMove;
                 _input.throwEvent -= OnThrow;
+                _input.slideEvent -= OnSlide;
             }
         }
         #endregion
@@ -159,6 +164,10 @@ namespace DP2D
         {
             ThrowInput = throwInput;
         }
+        void OnSlide(bool slideInput)
+        {
+            SlideInput = slideInput;
+        }
         #endregion
         #region Animation Methods
         void GetAnimationHash()
@@ -170,6 +179,7 @@ namespace DP2D
             LandHash = GetHash(_landParameter);
             FallHash = GetHash(_fallParameter);
             ShootHash = GetHash(_shootParameter);
+            SlideHash = GetHash(_slideParameter);
         }
 
         int GetHash(string str)
