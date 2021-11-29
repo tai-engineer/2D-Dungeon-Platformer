@@ -21,7 +21,6 @@ namespace DP2D
             }
             _currentState.Tick();
         }
-
         public void SetState(IState state)
         {
             //To avoid calling this function many times in same state
@@ -30,6 +29,8 @@ namespace DP2D
                 return;
             }
             _currentState?.OnExit();
+            if(_currentState != null)
+                Debug.Log($"{_currentState.GetType()} ==> {state.GetType()}");
             _currentState = state;
             _transitions.TryGetValue(_currentState.GetType(), out _currentTransitions);
             if (_currentTransitions == null)

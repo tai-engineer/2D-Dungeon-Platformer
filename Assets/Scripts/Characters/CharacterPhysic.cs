@@ -59,8 +59,8 @@ namespace DP2D
         {
             Vector2 movement = _moveVector * Time.deltaTime;
             _rb2D.MovePosition(_rb2D.position + movement);
+            Debug.Log("movement = " + movement + "|| moveVector = " + _moveVector);
         }
-
         public bool VerticalCollisionCheck(bool above)
         {
             Vector2 size = _boxCollider.size;
@@ -87,13 +87,16 @@ namespace DP2D
             }
             normals.Normalize();
             if (Mathf.Approximately(normals.x, 0f) && Mathf.Approximately(normals.y, 0f))
+            {
+                Debug.Log("normals = " + normals);
                 return false;
+            }
 
-            if (above)
-                return hits[1].point.y < (bottom.y + _verticalCheckDistance);
-
-            return hits[1].point.y > (bottom.y - _verticalCheckDistance);
+            float groundPoint = above ? bottom.y + _verticalCheckDistance : bottom.y - _verticalCheckDistance;
+            Debug.Log("groundPoint = " + groundPoint);
+            return above ? hits[1].point.y < groundPoint : hits[1].point.y > groundPoint;
         }
+        #region Movement
         public void SetHorizontalMovement(float value)
         {
             _moveVector.x = value;
@@ -119,7 +122,6 @@ namespace DP2D
             SetHorizontalMovement(input * _maxGroundSpeed);
             UpdateSpriteFacing();
         }
-
         public void VerticalMove()
         {
             if (_moveVector.y <= -_maxFallSpeed)
@@ -129,12 +131,11 @@ namespace DP2D
             }
             AddVerticalMovement(Gravity * Time.deltaTime);
         }
+        #endregion
         public void LandingPrepare()
         {
             IsLanding = true;
         }
-
-
         /// <summary>
         /// This function is called by Land animation event
         /// </summary>
