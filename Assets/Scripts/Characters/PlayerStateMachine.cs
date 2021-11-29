@@ -29,10 +29,11 @@ namespace DP2D
             //var _shootState = new ShootState(_controller, _player, _animator);
 
             At(_idleState, _runState, IsMoving);
-            At(_idleState, _jumpState, IsJumping);
+            At(_idleState, _jumpState, JumpInput);
             At(_idleState, _fallState, IsNotGrounded);
 
             At(_runState, _idleState, IsStopMoving);
+            At(_runState, _jumpState, JumpInput);
 
             At(_jumpState, _fallState, IsFalling);
 
@@ -56,7 +57,7 @@ namespace DP2D
         void AtAny(IState to, Func<bool> condition) => _stateMachine.AddAnyTransition(to, condition);
         bool IsMoving() => !Mathf.Approximately(_player.MoveInput.x, 0f);
         bool IsStopMoving() => !IsMoving();
-        bool IsJumping() => _player.JumpInput;
+        bool JumpInput() => _player.JumpInput;
         bool IsGrounded() => _controller.VerticalCollisionCheck(false);
         bool IsNotGrounded() => !IsGrounded();
         bool IsFalling() => _controller.MoveVector.y < 0f;

@@ -28,6 +28,7 @@ namespace DP2D
         public void Tick()
         {
             _controller.VerticalMove();
+            _controller.HorizontalMove(_player.MoveInput.x);
         }
     }
 }

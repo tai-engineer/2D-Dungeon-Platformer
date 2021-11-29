@@ -22,6 +22,7 @@ namespace DP2D
 
         [Header("Movement")]
         [SerializeField] float _maxGroundSpeed;
+        [SerializeField] float _groundAcceleration;
         [SerializeField] float _maxJumpSpeed;
         [SerializeField] float _maxFallSpeed;
 
@@ -59,7 +60,6 @@ namespace DP2D
         {
             Vector2 movement = _moveVector * Time.deltaTime;
             _rb2D.MovePosition(_rb2D.position + movement);
-            Debug.Log("movement = " + movement + "|| moveVector = " + _moveVector);
         }
         public bool VerticalCollisionCheck(bool above)
         {
@@ -76,24 +76,18 @@ namespace DP2D
             raycast[2] = middle + Vector2.right * size.x * 0.4f;
 
             RaycastHit2D[] hits = new RaycastHit2D[3];
-            Vector2[] result = new Vector2[3];
-            Vector2 normals = Vector2.zero;
+            int hitCount = 0;
             for(int i = 0; i < raycast.Length; i++)
             {
                 hits[i] = Physics2D.Raycast(raycast[i], direction, raycastDistance, _verticalCheckLayer);
                 Debug.DrawRay(raycast[i], direction * raycastDistance);
-                result[i] = hits[i].collider  != null ? hits[i].normal : Vector2.zero;
-                normals += result[i];
+                if (hits[i].collider != null)
+                    hitCount++;
             }
-            normals.Normalize();
-            if (Mathf.Approximately(normals.x, 0f) && Mathf.Approximately(normals.y, 0f))
-            {
-                Debug.Log("normals = " + normals);
+            if (hitCount < 3)
                 return false;
-            }
 
             float groundPoint = above ? bottom.y + _verticalCheckDistance : bottom.y - _verticalCheckDistance;
-            Debug.Log("groundPoint = " + groundPoint);
             return above ? hits[1].point.y < groundPoint : hits[1].point.y > groundPoint;
         }
         #region Movement
@@ -117,9 +111,10 @@ namespace DP2D
         {
             SetMoveVector(Vector2.zero);
         }
-        public void HorizontalMove(float input)
+        public void HorizontalMove(float moveInput)
         {
-            SetHorizontalMovement(input * _maxGroundSpeed);
+            float moveAmount = Mathf.MoveTowards(_moveVector.x, moveInput * _maxGroundSpeed, Time.deltaTime * _groundAcceleration);
+            SetHorizontalMovement(moveAmount);
             UpdateSpriteFacing();
         }
         public void VerticalMove()

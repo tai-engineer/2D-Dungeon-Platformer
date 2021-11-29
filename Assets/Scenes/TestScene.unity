@@ -4059,6 +4059,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1948696324, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: _maxGroundSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948696324, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: _groundAcceleration
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948696325, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948696325, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5682431053872938187, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_RootOrder
       value: 23
