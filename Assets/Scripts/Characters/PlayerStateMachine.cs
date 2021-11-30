@@ -10,9 +10,9 @@ namespace DP2D
     {
         StateMachine _stateMachine;
 
-        public CharacterPhysic controller;
-        public Animator animator;
-        public PlayerCharacter player;
+        [HideInInspector] public CharacterPhysic controller;
+        [HideInInspector] public Animator animator;
+        [HideInInspector] public PlayerCharacter player;
         void Awake()
         {
             controller = GetComponent<CharacterPhysic>();
@@ -28,6 +28,7 @@ namespace DP2D
             var _fallState = new FallState(this);
             var _landState = new LandState(this);
             var _slideState = new SlideState(this);
+            var _wallSlideState = new WallSlideState(this, false);
 
             At(_idleState, _runState, IsMoving);
             At(_idleState, _jumpState, JumpInput);
@@ -38,14 +39,20 @@ namespace DP2D
             At(_runState, _slideState, SlideInput);
 
             At(_jumpState, _fallState, IsFalling);
+            At(_jumpState, _wallSlideState, WallCollided);
 
             At(_fallState, _landState, IsGrounded);
+            At(_fallState, _wallSlideState, WallCollided);
 
             At(_landState, _idleState, FinishLanding);
 
             At(_slideState, _idleState, FinishSliding);
             At(_slideState, _fallState, IsNotGrounded);
             At(_slideState, _jumpState, JumpInput);
+
+            At(_wallSlideState, _idleState, IsGrounded);
+            At(_wallSlideState, _fallState, WallSlideCancel);
+            //At(_wallSlideState, _jumpState, JumpInput);
 
             _stateMachine.SetState(_idleState);
         }
@@ -65,5 +72,7 @@ namespace DP2D
         bool FinishLanding() => controller.IsLanding == false;
         bool SlideInput() => player.SlideInput && controller.CanSlide;
         bool FinishSliding() => controller.IsSliding == false;
+        bool WallCollided() => controller.HorizontalCollisionCheck();
+        bool WallSlideCancel() => !WallCollided();
     }
 }

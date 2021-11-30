@@ -18,7 +18,10 @@ namespace DP2D
         [Header("Collision")]
         [SerializeField, Tooltip("Raycast length starting from edge of box collider")]
         float _verticalCheckDistance;
+
+        [SerializeField] float _horizontalCheckDistance;
         [SerializeField] LayerMask _verticalCheckLayer;
+        [SerializeField] LayerMask _horizontalCheckLayer;
 
         [Header("Movement")]
         [SerializeField] float _maxGroundSpeed;
@@ -40,6 +43,7 @@ namespace DP2D
         }
         public bool IsSliding { get; set; }
         public Vector2 FaceDirection { get; private set; }
+        public bool WallCollided { get; set; }
         void Awake()
         {
             _boxCollider = GetComponent<BoxCollider2D>();
@@ -55,13 +59,14 @@ namespace DP2D
             Vector2 movement = _moveVector * Time.deltaTime;
             _rb2D.MovePosition(_rb2D.position + movement);
         }
+        #region Collision Check
         public bool VerticalCollisionCheck(bool above)
         {
             Vector2 size = _boxCollider.size;
             Vector2 direction = above ? Vector2.up : Vector2.down;
             Vector2 center = (Vector2)_boxCollider.bounds.center;
             Vector2 middle = center + direction * (size.y * 0.4f);
-            Vector2 bottom = center + direction * (size.y * 0.5f);
+            Vector2 edge = center + direction * (size.y * 0.5f);
             float raycastDistance = 0.5f + _verticalCheckDistance;
 
             Vector2[] raycast = new Vector2[3];
@@ -81,9 +86,39 @@ namespace DP2D
             if (hitCount < 3)
                 return false;
 
-            float groundPoint = above ? bottom.y + _verticalCheckDistance : bottom.y - _verticalCheckDistance;
-            return above ? hits[1].point.y < groundPoint : hits[1].point.y > groundPoint;
+            float hitPoint = above ? edge.y + _verticalCheckDistance : edge.y - _verticalCheckDistance;
+            return above ? hits[1].point.y < hitPoint : hits[1].point.y > hitPoint;
         }
+        public bool HorizontalCollisionCheck()
+        {
+            bool left = FaceDirection.x < 0;
+            Vector2 size = _boxCollider.size;
+            Vector2 direction = left ? Vector2.left : Vector2.right;
+            Vector2 center = (Vector2)_boxCollider.bounds.center;
+            Vector2 middle = center + direction * (size.x * 0.5f);
+            float raycastDistance = _horizontalCheckDistance;
+
+            Vector2[] raycast = new Vector2[3];
+            raycast[0] = middle + Vector2.up * size.y * 0.4f;
+            raycast[1] = middle;
+            raycast[2] = middle + Vector2.down * size.y * 0.4f;
+
+            RaycastHit2D[] hits = new RaycastHit2D[3];
+            int hitCount = 0;
+            for (int i = 0; i < raycast.Length; i++)
+            {
+                hits[i] = Physics2D.Raycast(raycast[i], direction, raycastDistance, _horizontalCheckLayer);
+                Debug.DrawRay(raycast[i], direction * raycastDistance);
+                if (hits[i].collider != null)
+                    hitCount++;
+            }
+            if (hitCount < 3)
+                return false;
+
+            float hitPoint = left ? middle.x - _horizontalCheckDistance : middle.x + _horizontalCheckLayer;
+            return left ? hits[1].point.x > hitPoint : hits[1].point.x < hitPoint;
+        }
+        #endregion
         #region Movement
         public void SetHorizontalMovement(float value)
         {
@@ -142,5 +177,6 @@ namespace DP2D
             FaceDirection = _moveVector.x < 0 ? Vector2.left : _moveVector.x > 0 ? Vector2.right : FaceDirection;
             _spriteRenderer.flipX = _originalSpriteFacingLeft ^ (FaceDirection.x < 0);
         }
+        public void SpriteFlip(bool flip) => _spriteRenderer.flipX = flip;
     }
 }

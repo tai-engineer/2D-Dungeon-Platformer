@@ -24,6 +24,18 @@ namespace DP2D
         [SerializeField] string _fallParameter = "";
         [SerializeField] string _shootParameter = "";
         [SerializeField] string _slideParameter = "";
+        [SerializeField] string _wallSlideParameter = "";
+        #region Animation Hash
+        public int SprintHash { get; private set;}
+        public int MoveHash { get; private set; }
+        public int ThrowHash { get; private set; }
+        public int JumpHash { get; private set; }
+        public int LandHash { get; private set; }
+        public int FallHash { get; private set; }
+        public int ShootHash { get; private set; }
+        public int SlideHash { get; private set; }
+        public int WallSlideHash { get; private set; }
+        #endregion
 
         #region Input
         public Vector3 MoveInput { get; private set; }
@@ -60,16 +72,6 @@ namespace DP2D
         }
         #endregion
 
-        #region Animation Hash
-        public int SprintHash { get; private set;}
-        public int MoveHash { get; private set; }
-        public int ThrowHash { get; private set; }
-        public int JumpHash { get; private set; }
-        public int LandHash { get; private set; }
-        public int FallHash { get; private set; }
-        public int ShootHash { get; private set; }
-        public int SlideHash { get; private set; }
-        #endregion
         #region Unity Executions
         protected override void Awake()
         {
@@ -180,6 +182,7 @@ namespace DP2D
             FallHash = GetHash(_fallParameter);
             ShootHash = GetHash(_shootParameter);
             SlideHash = GetHash(_slideParameter);
+            WallSlideHash = GetHash(_wallSlideParameter);
         }
 
         int GetHash(string str)
