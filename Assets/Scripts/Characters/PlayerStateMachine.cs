@@ -29,6 +29,7 @@ namespace DP2D
             var _landState = new LandState(this);
             var _slideState = new SlideState(this);
             var _wallSlideState = new WallSlideState(this, false);
+            var _wallSlideJumpState = new WallSlideJumpState(this);
 
             At(_idleState, _runState, IsMoving);
             At(_idleState, _jumpState, JumpInput);
@@ -39,7 +40,6 @@ namespace DP2D
             At(_runState, _slideState, SlideInput);
 
             At(_jumpState, _fallState, IsFalling);
-            At(_jumpState, _wallSlideState, WallCollided);
 
             At(_fallState, _landState, IsGrounded);
             At(_fallState, _wallSlideState, WallCollided);
@@ -52,7 +52,9 @@ namespace DP2D
 
             At(_wallSlideState, _idleState, IsGrounded);
             At(_wallSlideState, _fallState, WallSlideCancel);
-            //At(_wallSlideState, _jumpState, JumpInput);
+            At(_wallSlideState, _wallSlideJumpState, JumpInput);
+
+            At(_wallSlideJumpState, _fallState, IsFalling);
 
             _stateMachine.SetState(_idleState);
         }

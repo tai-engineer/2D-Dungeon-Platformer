@@ -1,18 +1,18 @@
 namespace DP2D
 {
-    public class JumpState : IState
+    public class WallSlideJumpState : IState
     {
-        public JumpState(PlayerStateMachine stateMachine)
+        public WallSlideJumpState(PlayerStateMachine stateMachine)
         {
             controller = stateMachine.controller;
-            player = stateMachine.player;
             animator = stateMachine.animator;
+            player = stateMachine.player;
         }
         public override void OnEnter()
         {
             animator.SetBool(player.JumpHash, true);
-            // Initial jump force
             controller.SetVerticalMovement(controller.MaxJumpSpeed);
+            controller.SetHorizontalMovement(1f * -controller.FaceDirection.x);
         }
 
         public override void OnExit()
@@ -23,7 +23,6 @@ namespace DP2D
         public override void Tick()
         {
             controller.VerticalMove();
-            controller.HorizontalMove(player.MoveInput.x);
         }
     }
 }

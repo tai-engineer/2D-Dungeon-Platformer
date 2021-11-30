@@ -53,7 +53,6 @@ namespace DP2D
             Gravity = Physics2D.gravity.y;
             FaceDirection = _originalSpriteFacingLeft ? Vector2.left : Vector2.right;
         }
-
         void FixedUpdate()
         {
             Vector2 movement = _moveVector * Time.deltaTime;
