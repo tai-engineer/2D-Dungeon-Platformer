@@ -44,6 +44,7 @@ namespace DP2D
         public bool IsSliding { get; set; }
         public Vector2 FaceDirection { get; private set; }
         public bool WallCollided { get; set; }
+        public bool CanHang { get; set; }
         void Awake()
         {
             _boxCollider = GetComponent<BoxCollider2D>();
@@ -97,29 +98,22 @@ namespace DP2D
             Vector2 middle = center + direction * (size.x * 0.5f);
             float raycastDistance = _horizontalCheckDistance;
 
-            Vector2[] raycast = new Vector2[3];
-            raycast[0] = middle + Vector2.up * size.y * 0.4f;
-            raycast[1] = middle;
-            raycast[2] = middle + Vector2.down * size.y * 0.4f;
-
-            RaycastHit2D[] hits = new RaycastHit2D[3];
-            int hitCount = 0;
+            Vector2[] raycast = new Vector2[2];
+            raycast[0] = middle + Vector2.up * size.y * 0.5f;
+            raycast[1] = middle + Vector2.up * size.y * 0.2f;
+            
+            RaycastHit2D[] hits = new RaycastHit2D[2];
             for (int i = 0; i < raycast.Length; i++)
             {
                 hits[i] = Physics2D.Raycast(raycast[i], direction, raycastDistance, _horizontalCheckLayer);
                 Debug.DrawRay(raycast[i], direction * raycastDistance);
-                if (hits[i].collider != null)
-                    hitCount++;
             }
-            if (hitCount < 3)
+
+            WallCollided = hits[1].collider != null;
+            if (WallCollided)
             {
-                WallCollided = false;
-                return false;
+                CanHang = hits[0].collider == null; 
             }
-
-            float hitPoint = left ? middle.x - _horizontalCheckDistance : middle.x + _horizontalCheckLayer;
-
-            WallCollided = left ? hits[1].point.x > hitPoint : hits[1].point.x < hitPoint;
             return WallCollided;
         }
         #endregion
@@ -180,7 +174,7 @@ namespace DP2D
             _slideEndTime = Time.time;
         }
         #endregion
-        void UpdateSpriteFacing()
+        public void UpdateSpriteFacing()
         {
             FaceDirection = _moveVector.x < 0 ? Vector2.left : _moveVector.x > 0 ? Vector2.right : FaceDirection;
             _spriteRenderer.flipX = _originalSpriteFacingLeft ^ (FaceDirection.x < 0);

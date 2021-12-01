@@ -25,6 +25,8 @@ namespace DP2D
         [SerializeField] string _shootParameter = "";
         [SerializeField] string _slideParameter = "";
         [SerializeField] string _wallSlideParameter = "";
+        [SerializeField] string _wallHangParameter = "";
+
         #region Animation Hash
         public int SprintHash { get; private set;}
         public int MoveHash { get; private set; }
@@ -35,8 +37,8 @@ namespace DP2D
         public int ShootHash { get; private set; }
         public int SlideHash { get; private set; }
         public int WallSlideHash { get; private set; }
+        public int WallHangHash { get; private set; }
         #endregion
-
         #region Input
         public Vector3 MoveInput { get; private set; }
         public bool SprintInput { get; private set; }
@@ -183,6 +185,7 @@ namespace DP2D
             ShootHash = GetHash(_shootParameter);
             SlideHash = GetHash(_slideParameter);
             WallSlideHash = GetHash(_wallSlideParameter);
+            WallHangHash = GetHash(_wallHangParameter);
         }
 
         int GetHash(string str)

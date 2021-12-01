@@ -13,6 +13,7 @@ namespace DP2D
             animator.SetBool(player.JumpHash, true);
             controller.SetVerticalMovement(controller.MaxJumpSpeed);
             controller.SetHorizontalMovement(1f * -controller.FaceDirection.x);
+            controller.UpdateSpriteFacing();
         }
 
         public override void OnExit()

@@ -30,6 +30,7 @@ namespace DP2D
             var _slideState = new SlideState(this);
             var _wallSlideState = new WallSlideState(this, false);
             var _wallSlideJumpState = new WallSlideJumpState(this);
+            var _wallHangState = new WallHangState(this);
 
             At(_idleState, _runState, IsMoving);
             At(_idleState, _jumpState, JumpInput);
@@ -42,6 +43,7 @@ namespace DP2D
             At(_jumpState, _fallState, IsFalling);
 
             At(_fallState, _landState, IsGrounded);
+            At(_fallState, _wallHangState, CanHang);
             At(_fallState, _wallSlideState, WallCollided);
 
             At(_landState, _idleState, FinishLanding);
@@ -55,6 +57,9 @@ namespace DP2D
             At(_wallSlideState, _wallSlideJumpState, JumpInput);
 
             At(_wallSlideJumpState, _fallState, IsFalling);
+
+            At(_wallHangState, _fallState, IsFalling);
+            At(_wallHangState, _wallSlideJumpState, JumpInput);
 
             _stateMachine.SetState(_idleState);
         }
@@ -76,5 +81,6 @@ namespace DP2D
         bool FinishSliding() => controller.IsSliding == false;
         bool WallCollided() => controller.HorizontalCollisionCheck();
         bool WallSlideCancel() => !WallCollided();
+        bool CanHang() => controller.HorizontalCollisionCheck() && controller.CanHang;
     }
 }

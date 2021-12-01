@@ -29,7 +29,7 @@ namespace DP2D
                 return;
             }
             _currentState?.OnExit();
-            if(_currentState != null)
+            if (_currentState != null)
                 Debug.Log($"{_currentState.GetType()} ==> {state.GetType()}");
             _currentState = state;
             _transitions.TryGetValue(_currentState.GetType(), out _currentTransitions);

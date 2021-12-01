@@ -195,6 +195,7 @@ MonoBehaviour:
   _shootParameter: 
   _slideParameter: Slide
   _wallSlideParameter: WallSlide
+  _wallHangParameter: WallHang
 --- !u!114 &1948696324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,7 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _originalSpriteFacingLeft: 0
   _verticalCheckDistance: 0.03
-  _horizontalCheckDistance: 0.02
+  _horizontalCheckDistance: 0.01
   _verticalCheckLayer:
     serializedVersion: 2
     m_Bits: 256
