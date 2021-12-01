@@ -115,7 +115,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5682431053872938189}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
@@ -194,6 +194,7 @@ MonoBehaviour:
   _fallParameter: Fall
   _shootParameter: 
   _slideParameter: Slide
+  _wallSlideParameter: WallSlide
 --- !u!114 &1948696324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,7 +209,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _originalSpriteFacingLeft: 0
   _verticalCheckDistance: 0.03
+  _horizontalCheckDistance: 0.02
   _verticalCheckLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  _horizontalCheckLayer:
     serializedVersion: 2
     m_Bits: 256
   _maxGroundSpeed: 2

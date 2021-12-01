@@ -69,9 +69,9 @@ namespace DP2D
             float raycastDistance = 0.5f + _verticalCheckDistance;
 
             Vector2[] raycast = new Vector2[3];
-            raycast[0] = middle + Vector2.left * size.x * 0.4f;
+            raycast[0] = middle + Vector2.left * size.x * 0.3f;
             raycast[1] = middle;
-            raycast[2] = middle + Vector2.right * size.x * 0.4f;
+            raycast[2] = middle + Vector2.right * size.x * 0.3f;
 
             RaycastHit2D[] hits = new RaycastHit2D[3];
             int hitCount = 0;
@@ -82,7 +82,7 @@ namespace DP2D
                 if (hits[i].collider != null)
                     hitCount++;
             }
-            if (hitCount < 3)
+            if (hitCount < 1)
                 return false;
 
             float hitPoint = above ? edge.y + _verticalCheckDistance : edge.y - _verticalCheckDistance;
@@ -112,10 +112,15 @@ namespace DP2D
                     hitCount++;
             }
             if (hitCount < 3)
+            {
+                WallCollided = false;
                 return false;
+            }
 
             float hitPoint = left ? middle.x - _horizontalCheckDistance : middle.x + _horizontalCheckLayer;
-            return left ? hits[1].point.x > hitPoint : hits[1].point.x < hitPoint;
+
+            WallCollided = left ? hits[1].point.x > hitPoint : hits[1].point.x < hitPoint;
+            return WallCollided;
         }
         #endregion
         #region Movement
@@ -144,6 +149,10 @@ namespace DP2D
             float moveAmount = Mathf.MoveTowards(_moveVector.x, moveInput * _maxGroundSpeed, Time.deltaTime * _groundAcceleration);
             SetHorizontalMovement(moveAmount);
             UpdateSpriteFacing();
+            if(WallCollided)
+            {
+                SetHorizontalMovement(0f);
+            }
         }
         public void VerticalMove()
         {
@@ -154,7 +163,6 @@ namespace DP2D
             }
             AddVerticalMovement(Gravity * Time.deltaTime);
         }
-        #endregion
         public void LandingPrepare()
         {
             IsLanding = true;
@@ -171,6 +179,7 @@ namespace DP2D
         {
             _slideEndTime = Time.time;
         }
+        #endregion
         void UpdateSpriteFacing()
         {
             FaceDirection = _moveVector.x < 0 ? Vector2.left : _moveVector.x > 0 ? Vector2.right : FaceDirection;
