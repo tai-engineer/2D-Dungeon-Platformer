@@ -47,6 +47,7 @@ namespace DP2D
         public bool CanHang { get; set; }
         public bool IsClimbing { get; set; }
         public Vector2 CurrentPosition { get => transform.position; }
+        public BoxCollider2D Box2D { get => _boxCollider; }
         void Awake()
         {
             _boxCollider = GetComponent<BoxCollider2D>();
@@ -177,12 +178,11 @@ namespace DP2D
         public void ClimbEnd()
         {
             IsClimbing = false;
-            _rb2D.position = GetClimbStandPosition();
         }
 
-        Vector2 _climbCheckOffset = new Vector2(0.2f, 0.2f);
+        Vector2 _climbCheckOffset = new Vector2(0.1f, 0.2f);
         Vector2 _climbStandOffset = new Vector2(0f, 0.02f);
-        Vector2 GetClimbStandPosition()
+        public Vector2 GetClimbStandPosition()
         {
             float distance = 0.5f;
             Vector2 center = (Vector2)_boxCollider.bounds.center;

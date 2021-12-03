@@ -13,11 +13,14 @@ namespace DP2D
         {
             animator.SetBool(player.WallClimbHash, true);
             controller.IsClimbing = true;
+            controller.Box2D.enabled = false;
         }
 
         public override void OnExit()
         {
             animator.SetBool(player.WallClimbHash, false);
+            controller.gameObject.transform.position = controller.GetClimbStandPosition();
+            controller.Box2D.enabled = true;
         }
 
         public override void Tick()
