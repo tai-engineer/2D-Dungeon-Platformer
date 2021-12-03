@@ -31,6 +31,7 @@ namespace DP2D
             var _wallSlideState = new WallSlideState(this, false);
             var _wallSlideJumpState = new WallSlideJumpState(this);
             var _wallHangState = new WallHangState(this);
+            var _wallClimbState = new WallClimbState(this);
 
             At(_idleState, _runState, IsMoving);
             At(_idleState, _jumpState, JumpInput);
@@ -60,6 +61,9 @@ namespace DP2D
 
             At(_wallHangState, _fallState, IsFalling);
             At(_wallHangState, _wallSlideJumpState, JumpInput);
+            At(_wallHangState, _wallClimbState, ClimbInput);
+
+            At(_wallClimbState, _idleState, FinishClimbing);
 
             _stateMachine.SetState(_idleState);
         }
@@ -82,5 +86,7 @@ namespace DP2D
         bool WallCollided() => controller.HorizontalCollisionCheck();
         bool WallSlideCancel() => !WallCollided();
         bool CanHang() => controller.HorizontalCollisionCheck() && controller.CanHang;
+        bool ClimbInput() => player.ClimbInput;
+        bool FinishClimbing() => controller.IsClimbing == false;
     }
 }

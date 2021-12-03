@@ -947,8 +947,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 522209917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.57, y: -1.371, z: 0}
-  m_LocalScale: {x: 0.2875, y: 1.1759096, z: 1}
+  m_LocalPosition: {x: -3.384, y: -1.371, z: 0}
+  m_LocalScale: {x: 0.6432812, y: 1.6127697, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 26
@@ -4386,33 +4386,37 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1948696324, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: _verticalCheckDistance
-      value: 0.03
+    - target: {fileID: -4797225298529356432, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1948696324, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: _horizontalCheckDistance
-      value: 0.01
+    - target: {fileID: 1948696327, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.21
       objectReference: {fileID: 0}
     - target: {fileID: 1948696327, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.33
+      value: 0.38
       objectReference: {fileID: 0}
     - target: {fileID: 1948696329, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: _wallHangParameter
-      value: WallHang
+      propertyPath: _wallClimpParameter
+      value: WallClimb
       objectReference: {fileID: 0}
+    - target: {fileID: 5682431053872938186, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3204480812468917802, guid: cbeab73676d18dc409765fb478b04bac, type: 3}
     - target: {fileID: 5682431053872938187, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_RootOrder
       value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 5682431053872938187, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.041
+      value: -3.809
       objectReference: {fileID: 0}
     - target: {fileID: 5682431053872938187, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.447
+      value: -0.849
       objectReference: {fileID: 0}
     - target: {fileID: 5682431053872938187, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_LocalPosition.z

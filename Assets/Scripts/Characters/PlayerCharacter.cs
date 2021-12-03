@@ -26,6 +26,7 @@ namespace DP2D
         [SerializeField] string _slideParameter = "";
         [SerializeField] string _wallSlideParameter = "";
         [SerializeField] string _wallHangParameter = "";
+        [SerializeField] string _wallClimpParameter = "";
 
         #region Animation Hash
         public int SprintHash { get; private set;}
@@ -38,6 +39,7 @@ namespace DP2D
         public int SlideHash { get; private set; }
         public int WallSlideHash { get; private set; }
         public int WallHangHash { get; private set; }
+        public int WallClimbHash { get; private set; }
         #endregion
         #region Input
         public Vector3 MoveInput { get; private set; }
@@ -46,6 +48,7 @@ namespace DP2D
         public bool ShootInput { get; private set; }
         public bool ThrowInput { get; private set; }
         public bool SlideInput { get; private set; }
+        public bool ClimbInput { get; private set; }
         #endregion
 
         #region Stats
@@ -91,6 +94,7 @@ namespace DP2D
                 _input.moveEvent   += OnMove;
                 _input.throwEvent   += OnThrow;
                 _input.slideEvent   += OnSlide;
+                _input.climbEvent   += OnClimb;
             }
 
             Health = _startingHealth.Value;
@@ -107,6 +111,7 @@ namespace DP2D
                 _input.moveEvent   -= OnMove;
                 _input.throwEvent -= OnThrow;
                 _input.slideEvent -= OnSlide;
+                _input.climbEvent -= OnClimb;
             }
         }
         #endregion
@@ -172,6 +177,10 @@ namespace DP2D
         {
             SlideInput = slideInput;
         }
+        void OnClimb(bool climbInput)
+        {
+            ClimbInput = climbInput;
+        }
         #endregion
         #region Animation Methods
         void GetAnimationHash()
@@ -186,6 +195,7 @@ namespace DP2D
             SlideHash = GetHash(_slideParameter);
             WallSlideHash = GetHash(_wallSlideParameter);
             WallHangHash = GetHash(_wallHangParameter);
+            WallClimbHash = GetHash(_wallClimpParameter);
         }
 
         int GetHash(string str)

@@ -45,12 +45,13 @@ namespace DP2D
         public Vector2 FaceDirection { get; private set; }
         public bool WallCollided { get; set; }
         public bool CanHang { get; set; }
+        public bool IsClimbing { get; set; }
+        public Vector2 CurrentPosition { get => transform.position; }
         void Awake()
         {
             _boxCollider = GetComponent<BoxCollider2D>();
             _rb2D = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
-
             Gravity = Physics2D.gravity.y;
             FaceDirection = _originalSpriteFacingLeft ? Vector2.left : Vector2.right;
         }
@@ -106,7 +107,7 @@ namespace DP2D
             for (int i = 0; i < raycast.Length; i++)
             {
                 hits[i] = Physics2D.Raycast(raycast[i], direction, raycastDistance, _horizontalCheckLayer);
-                Debug.DrawRay(raycast[i], direction * raycastDistance);
+                Debug.DrawRay(raycast[i], direction * raycastDistance, Color.green);
             }
 
             WallCollided = hits[1].collider != null;
@@ -172,6 +173,13 @@ namespace DP2D
         public void SlideEnd()
         {
             _slideEndTime = Time.time;
+        }
+        Vector2 _climbOffset = new Vector2(0.15f, 0.3f);
+        public void ClimbEnd()
+        {
+            IsClimping = false;
+            Vector2 climbPos = new Vector2(_climbOffset.x * FaceDirection.x, _climbOffset.y);
+            _rb2D.position = CurrentPosition + climbPos;
         }
         #endregion
         public void UpdateSpriteFacing()

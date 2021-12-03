@@ -73,6 +73,14 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Climp"",
+                    ""type"": ""Button"",
+                    ""id"": ""8217f539-996e-4985-99a1-b95b40a3c709"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -196,6 +204,17 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""action"": ""Slide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fadaf510-ae00-468b-901e-67721782c818"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Climp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -217,6 +236,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         m_PlayerInput_Sprint = m_PlayerInput.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerInput_Throw = m_PlayerInput.FindAction("Throw", throwIfNotFound: true);
         m_PlayerInput_Slide = m_PlayerInput.FindAction("Slide", throwIfNotFound: true);
+        m_PlayerInput_Climp = m_PlayerInput.FindAction("Climp", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -273,6 +293,7 @@ public class @GameInput : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerInput_Sprint;
     private readonly InputAction m_PlayerInput_Throw;
     private readonly InputAction m_PlayerInput_Slide;
+    private readonly InputAction m_PlayerInput_Climp;
     public struct PlayerInputActions
     {
         private @GameInput m_Wrapper;
@@ -284,6 +305,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         public InputAction @Sprint => m_Wrapper.m_PlayerInput_Sprint;
         public InputAction @Throw => m_Wrapper.m_PlayerInput_Throw;
         public InputAction @Slide => m_Wrapper.m_PlayerInput_Slide;
+        public InputAction @Climp => m_Wrapper.m_PlayerInput_Climp;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -314,6 +336,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Slide.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSlide;
                 @Slide.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSlide;
                 @Slide.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSlide;
+                @Climp.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnClimb;
+                @Climp.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnClimb;
+                @Climp.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnClimb;
             }
             m_Wrapper.m_PlayerInputActionsCallbackInterface = instance;
             if (instance != null)
@@ -339,6 +364,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Slide.started += instance.OnSlide;
                 @Slide.performed += instance.OnSlide;
                 @Slide.canceled += instance.OnSlide;
+                @Climp.started += instance.OnClimb;
+                @Climp.performed += instance.OnClimb;
+                @Climp.canceled += instance.OnClimb;
             }
         }
     }
@@ -361,5 +389,6 @@ public class @GameInput : IInputActionCollection, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
         void OnSlide(InputAction.CallbackContext context);
+        void OnClimb(InputAction.CallbackContext context);
     }
 }
