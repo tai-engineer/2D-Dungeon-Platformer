@@ -174,12 +174,32 @@ namespace DP2D
         {
             _slideEndTime = Time.time;
         }
-        Vector2 _climbOffset = new Vector2(0.15f, 0.3f);
         public void ClimbEnd()
         {
-            IsClimping = false;
-            Vector2 climbPos = new Vector2(_climbOffset.x * FaceDirection.x, _climbOffset.y);
-            _rb2D.position = CurrentPosition + climbPos;
+            IsClimbing = false;
+            _rb2D.position = GetClimbStandPosition();
+        }
+
+        Vector2 _climbCheckOffset = new Vector2(0.2f, 0.2f);
+        Vector2 _climbStandOffset = new Vector2(0f, 0.02f);
+        Vector2 GetClimbStandPosition()
+        {
+            float distance = 0.5f;
+            Vector2 center = (Vector2)_boxCollider.bounds.center;
+            Vector2 middleTop = center + Vector2.up * (_boxCollider.size.y * 0.5f);
+
+            Vector2 climbCheckPosition = middleTop + new Vector2(_climbCheckOffset.x * FaceDirection.x, _climbCheckOffset.y);
+
+            RaycastHit2D hit = Physics2D.Raycast(climbCheckPosition, Vector2.down, distance, _verticalCheckLayer);
+            Debug.DrawRay(climbCheckPosition, Vector2.down * distance, Color.green);
+            if (hit.collider == null)
+            {
+                Debug.LogWarning("Failed to get climb position");
+                return Vector2.zero;
+            }
+
+            return hit.point + _climbStandOffset;
+
         }
         #endregion
         public void UpdateSpriteFacing()

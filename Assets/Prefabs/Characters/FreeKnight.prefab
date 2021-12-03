@@ -196,6 +196,7 @@ MonoBehaviour:
   _slideParameter: Slide
   _wallSlideParameter: WallSlide
   _wallHangParameter: WallHang
+  _wallClimpParameter: WallClimb
 --- !u!114 &1948696324
 MonoBehaviour:
   m_ObjectHideFlags: 0

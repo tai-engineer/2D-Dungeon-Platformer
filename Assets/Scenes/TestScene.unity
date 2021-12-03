@@ -4386,26 +4386,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -4797225298529356432, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948696327, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 0.21
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948696327, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.38
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948696329, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: _wallClimpParameter
-      value: WallClimb
-      objectReference: {fileID: 0}
-    - target: {fileID: 5682431053872938186, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 3204480812468917802, guid: cbeab73676d18dc409765fb478b04bac, type: 3}
     - target: {fileID: 5682431053872938187, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_RootOrder
       value: 23
