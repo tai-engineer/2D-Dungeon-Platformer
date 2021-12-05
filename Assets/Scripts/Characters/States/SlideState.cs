@@ -26,7 +26,9 @@ namespace DP2D
 
         public override void Tick()
         {
-            if((Time.time - _startTime) > controller.SlideDuration)
+            controller.VerticalCollisionCheck(false);
+            controller.HorizontalCollisionCheck();
+            if ((Time.time - _startTime) > controller.SlideDuration)
             {
                 controller.IsSliding = false;
                 return;

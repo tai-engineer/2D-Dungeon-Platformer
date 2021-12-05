@@ -61,18 +61,23 @@ namespace DP2D
         }
         void FixedUpdate()
         {
+            if (WallCollided)
+            {
+                SetHorizontalMovement(0f);
+            }
             Vector2 movement = _moveVector * Time.deltaTime;
             _rb2D.MovePosition(_rb2D.position + movement);
         }
         #region Collision Check
-        public bool VerticalCollisionCheck(bool above)
+        public void VerticalCollisionCheck(bool above)
         {
+            IsGrounded = false;
             Vector2 size = _boxCollider.size;
             Vector2 direction = above ? Vector2.up : Vector2.down;
             Vector2 center = (Vector2)_boxCollider.bounds.center;
             Vector2 middle = center + direction * (size.y * 0.4f);
             Vector2 edge = center + direction * (size.y * 0.5f);
-            float raycastDistance = 0.5f + _verticalCheckDistance;
+            float raycastDistance = 0.1f + _verticalCheckDistance;
 
             Vector2[] raycast = new Vector2[3];
             raycast[0] = middle + Vector2.left * size.x * 0.3f;
@@ -180,10 +185,6 @@ namespace DP2D
             float moveAmount = Mathf.MoveTowards(_moveVector.x, moveInput * _maxGroundSpeed, Time.deltaTime * _groundAcceleration);
             SetHorizontalMovement(moveAmount);
             UpdateSpriteFacing();
-            if(WallCollided)
-            {
-                SetHorizontalMovement(0f);
-            }
         }
         public void VerticalMove()
         {
