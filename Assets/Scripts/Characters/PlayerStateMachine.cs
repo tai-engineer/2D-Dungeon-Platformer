@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using DP2D.Debugger;
+
 namespace DP2D
 {
     [RequireComponent(typeof(PlayerCharacter), typeof(Animator))]
@@ -9,7 +11,10 @@ namespace DP2D
     public class PlayerStateMachine : MonoBehaviour
     {
         StateMachine _stateMachine;
-
+#if UNITY_EDITOR
+        [SerializeField]
+        StateMachineDebugger _stateMachineDebugger = default;
+#endif
         [HideInInspector] public CharacterPhysic controller;
         [HideInInspector] public Animator animator;
         [HideInInspector] public PlayerCharacter player;
@@ -20,7 +25,9 @@ namespace DP2D
             player = GetComponent<PlayerCharacter>();
 
             _stateMachine = new StateMachine();
-            
+#if UNITY_EDITOR
+            _stateMachine.debugger = _stateMachineDebugger;
+#endif
             var _idleState = new IdleState(this);
             var _runState = new MoveState(this);
             //var _climpState = new ClimpState();
@@ -66,6 +73,9 @@ namespace DP2D
             At(_wallClimbState, _idleState, FinishClimbing);
 
             _stateMachine.SetState(_idleState);
+#if UNITY_EDITOR
+            _stateMachineDebugger.Awake(_stateMachine);
+#endif
         }
         void Update()
         {

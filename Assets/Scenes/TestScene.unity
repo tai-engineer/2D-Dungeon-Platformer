@@ -4394,6 +4394,10 @@ PrefabInstance:
       propertyPath: m_Offset.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1948696328, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: _stateMachineDebugger._debugTransition
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5682431053872938186, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_FlipX
       value: 0

@@ -1,17 +1,19 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System;
+using DP2D.Debugger;
 namespace DP2D
 {
     public class StateMachine
     {
-        IState _currentState;
+        internal IState currentState;
 
         Dictionary<Type, List<Transition>> _transitions = new Dictionary<Type, List<Transition>>();
         List<Transition> _anyTransitions = new List<Transition>();
         List<Transition> _currentTransitions = new List<Transition>();
         readonly List<Transition> EmptyTransition = new List<Transition>(0);
+#if UNITY_EDITOR
+        internal StateMachineDebugger debugger;
+#endif
         public void Tick()
         {
             var transition = GetTransition();
@@ -19,23 +21,21 @@ namespace DP2D
             {
                 SetState(transition.To); 
             }
-            _currentState.Tick();
+            currentState.Tick();
         }
         public void SetState(IState state)
         {
             //To avoid calling this function many times in same state
-            if (_currentState == state)
+            if (currentState == state)
             {
                 return;
             }
-            _currentState?.OnExit();
-            if (_currentState != null)
-                Debug.Log($"{_currentState.GetType()} ==> {state.GetType()}");
-            _currentState = state;
-            _transitions.TryGetValue(_currentState.GetType(), out _currentTransitions);
+            currentState?.OnExit();
+            currentState = state;
+            _transitions.TryGetValue(currentState.GetType(), out _currentTransitions);
             if (_currentTransitions == null)
                 _currentTransitions = EmptyTransition;
-            _currentState.OnEnter();
+            currentState.OnEnter();
         }
 
         public void AddTransition(IState from, IState to, Func<bool> condition)
@@ -56,13 +56,31 @@ namespace DP2D
         {
             foreach (var anyTransition in _anyTransitions)
             {
+#if UNITY_EDITOR
+                debugger.TransitionEvaluationBegin(anyTransition.To.ToString());
+#endif
                 if (anyTransition.Condition())
+                {
+#if UNITY_EDITOR
+                    debugger.TransitionConditionResult(anyTransition.Condition.Method.Name);
+                    debugger.TransitionEvaluationEnd();
+#endif
                     return anyTransition;
+                }
             }
             foreach (var transition in _currentTransitions)
             {
+#if UNITY_EDITOR
+                debugger.TransitionEvaluationBegin(transition.To.ToString());
+#endif
                 if (transition.Condition())
+                {
+#if UNITY_EDITOR
+                    debugger.TransitionConditionResult(transition.Condition.Method.Name);
+                    debugger.TransitionEvaluationEnd();
+#endif
                     return transition;
+                }
             }
             return null;
         }
