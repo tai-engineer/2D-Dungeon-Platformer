@@ -222,11 +222,10 @@ namespace DP2D
             float distance = 0.5f;
             Vector2 center = (Vector2)_boxCollider.bounds.center;
             Vector2 middleTop = center + Vector2.up * (_boxCollider.size.y * 0.5f);
-
-            Vector2 climbCheckPosition = middleTop + new Vector2(_climbCheckOffset.x * FaceDirection.x, _climbCheckOffset.y);
+            Vector2 topCorner = middleTop + FaceDirection * (_boxCollider.size.x * 0.5f);
+            Vector2 climbCheckPosition = topCorner + new Vector2(_climbCheckOffset.x * FaceDirection.x, _climbCheckOffset.y);
 
             RaycastHit2D hit = Physics2D.Raycast(climbCheckPosition, Vector2.down, distance, _verticalCheckLayer);
-            Debug.DrawRay(climbCheckPosition, Vector2.down * distance, Color.green);
             if (hit.collider == null)
             {
                 Debug.LogWarning("Failed to get climb position");
