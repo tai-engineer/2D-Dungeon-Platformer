@@ -47,6 +47,7 @@ namespace DP2D
         public bool CanWallhang { get; set; }
         public bool IsClimbing { get; set; }
         public bool CanWallSlide { get; set; }
+        public bool CurrentSpriteFlip { get => _spriteRenderer.flipX; }
         public Vector2 CurrentPosition { get => transform.position; }
         public BoxCollider2D Box2D { get => _boxCollider; }
         void Awake()
@@ -54,6 +55,7 @@ namespace DP2D
             _boxCollider = GetComponent<BoxCollider2D>();
             _rb2D = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+
             Gravity = Physics2D.gravity.y;
             FaceDirection = _originalSpriteFacingLeft ? Vector2.left : Vector2.right;
         }

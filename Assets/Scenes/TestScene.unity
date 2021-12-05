@@ -4388,19 +4388,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1948696327, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_Size.x
-      value: 0.18
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1948696327, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: m_Offset.x
-      value: 0
+      propertyPath: m_SpriteTilingProperty.pivot.x
+      value: 0.46
       objectReference: {fileID: 0}
-    - target: {fileID: 1948696328, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: _stateMachineDebugger._debugTransition
-      value: 1
+    - target: {fileID: 1948696327, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.2
       objectReference: {fileID: 0}
-    - target: {fileID: 5682431053872938186, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: m_FlipX
-      value: 0
+    - target: {fileID: 1948696327, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 5682431053872938187, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_RootOrder
@@ -4412,7 +4412,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5682431053872938187, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.849
+      value: -1.432
       objectReference: {fileID: 0}
     - target: {fileID: 5682431053872938187, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_LocalPosition.z
