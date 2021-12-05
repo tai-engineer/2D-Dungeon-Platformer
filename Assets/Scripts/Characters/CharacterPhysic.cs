@@ -44,8 +44,9 @@ namespace DP2D
         public bool IsSliding { get; set; }
         public Vector2 FaceDirection { get; private set; }
         public bool WallCollided { get; set; }
-        public bool CanHang { get; set; }
+        public bool CanWallhang { get; set; }
         public bool IsClimbing { get; set; }
+        public bool CanWallSlide { get; set; }
         public Vector2 CurrentPosition { get => transform.position; }
         public BoxCollider2D Box2D { get => _boxCollider; }
         void Awake()
@@ -93,30 +94,62 @@ namespace DP2D
         }
         public bool HorizontalCollisionCheck()
         {
-            bool left = FaceDirection.x < 0;
-            Vector2 size = _boxCollider.size;
-            Vector2 direction = left ? Vector2.left : Vector2.right;
-            Vector2 center = (Vector2)_boxCollider.bounds.center;
-            Vector2 middle = center + direction * (size.x * 0.5f);
-            float raycastDistance = _horizontalCheckDistance;
+            Vector2 direction = FaceDirection.x < 0 ? Vector2.left : Vector2.right;
+            Vector2 middle = (Vector2)_boxCollider.bounds.center + direction * (_boxCollider.size.x * 0.5f);
 
-            Vector2[] raycast = new Vector2[2];
-            raycast[0] = middle + Vector2.up * size.y * 0.5f;
-            raycast[1] = middle + Vector2.up * size.y * 0.2f;
-            
-            RaycastHit2D[] hits = new RaycastHit2D[2];
-            for (int i = 0; i < raycast.Length; i++)
-            {
-                hits[i] = Physics2D.Raycast(raycast[i], direction, raycastDistance, _horizontalCheckLayer);
-                Debug.DrawRay(raycast[i], direction * raycastDistance, Color.green);
-            }
-
-            WallCollided = hits[1].collider != null;
-            if (WallCollided)
-            {
-                CanHang = hits[0].collider == null; 
-            }
+            WallCollided = WallCollisionCheck(middle, direction, _horizontalCheckDistance, _verticalCheckLayer);
+            CanWallSlide = WallSlideCheck(middle, direction, _horizontalCheckDistance, _verticalCheckLayer);
+            CanWallhang = WallLedgeCheck(middle, direction, _horizontalCheckDistance, _verticalCheckLayer);
             return WallCollided;
+        }
+        bool WallCollisionCheck(Vector2 middle, Vector2 direction, float distance, LayerMask layer)
+        {
+            Vector2[] wallCast = new Vector2[3];
+            wallCast[0] = middle + Vector2.up * _boxCollider.size.y * 0.4f;
+            wallCast[1] = middle;
+            wallCast[2] = middle + Vector2.down * _boxCollider.size.y * 0.4f;
+            RaycastHit2D[] hits = new RaycastHit2D[wallCast.Length];
+            for (int i = 0; i < wallCast.Length; i++)
+            {
+                hits[i] = Physics2D.Raycast(wallCast[i], direction, distance, _horizontalCheckLayer);
+                Debug.DrawRay(wallCast[i], direction * distance, Color.green);
+                if (hits[i].collider != null)
+                    return true;
+            }
+            return false;
+        }
+        bool WallSlideCheck(Vector2 middle, Vector2 direction, float distance, LayerMask layer)
+        {
+            Vector2[] wallSlideCast = new Vector2[3];
+            wallSlideCast[0] = middle + Vector2.up * _boxCollider.size.y * 0.4f;
+            wallSlideCast[1] = middle;
+            wallSlideCast[2] = middle + Vector2.down * _boxCollider.size.y * 0.4f;
+            RaycastHit2D[] hits = new RaycastHit2D[wallSlideCast.Length];
+            for (int i = 0; i < wallSlideCast.Length; i++)
+            {
+                hits[i] = Physics2D.Raycast(wallSlideCast[i], direction, distance, _horizontalCheckLayer);
+                if (hits[i].collider == null)
+                    return false;
+            }
+            return true;
+        }
+        bool WallLedgeCheck(Vector2 middle, Vector2 direction, float distance, LayerMask layer)
+        {
+            if (!WallCollided) return false;
+
+            Vector2[] wallLedgeCast = new Vector2[2];
+            wallLedgeCast[0] = middle + Vector2.up * _boxCollider.size.y * 0.4f;
+            wallLedgeCast[1] = middle + Vector2.up * _boxCollider.size.y * 0.2f;
+            RaycastHit2D[] hits = new RaycastHit2D[wallLedgeCast.Length];
+            for (int i = 0; i < wallLedgeCast.Length; i++)
+            {
+                hits[i] = Physics2D.Raycast(wallLedgeCast[i], direction, distance, _horizontalCheckLayer);
+                Debug.DrawRay(wallLedgeCast[i], direction * distance, Color.red);
+            }
+
+            if (hits[1].collider != null)
+                return hits[0].collider == null;
+            return false;
         }
         #endregion
         #region Movement

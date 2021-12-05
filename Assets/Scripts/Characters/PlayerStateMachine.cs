@@ -52,7 +52,7 @@ namespace DP2D
 
             At(_fallState, _landState, IsGrounded);
             At(_fallState, _wallHangState, CanHang);
-            At(_fallState, _wallSlideState, WallCollided);
+            At(_fallState, _wallSlideState, CanWallSlide);
 
             At(_landState, _idleState, FinishLanding);
 
@@ -93,9 +93,9 @@ namespace DP2D
         bool FinishLanding() => controller.IsLanding == false;
         bool SlideInput() => player.SlideInput && controller.CanSlide;
         bool FinishSliding() => controller.IsSliding == false;
-        bool WallCollided() => controller.HorizontalCollisionCheck();
-        bool WallSlideCancel() => !WallCollided();
-        bool CanHang() => controller.HorizontalCollisionCheck() && controller.CanHang;
+        bool CanWallSlide() => controller.CanWallSlide;
+        bool WallSlideCancel() => !controller.CanWallSlide;
+        bool CanHang() => controller.HorizontalCollisionCheck() && controller.CanWallhang;
         bool ClimbInput() => player.ClimbInput;
         bool FinishClimbing() => controller.IsClimbing == false;
     }
