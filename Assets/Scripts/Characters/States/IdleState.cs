@@ -20,7 +20,7 @@ namespace DP2D
 
         public override void Tick()
         {
-            
+            controller.VerticalCollisionCheck(false);
         }
     }
 }

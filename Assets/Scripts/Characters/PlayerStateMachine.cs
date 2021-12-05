@@ -47,6 +47,7 @@ namespace DP2D
             At(_runState, _idleState, IsStopMoving);
             At(_runState, _jumpState, JumpInput);
             At(_runState, _slideState, SlideInput);
+            At(_runState, _fallState, IsNotGrounded);
 
             At(_jumpState, _fallState, IsFalling);
 
@@ -87,15 +88,15 @@ namespace DP2D
         bool IsMoving() => !Mathf.Approximately(player.MoveInput.x, 0f);
         bool IsStopMoving() => !IsMoving();
         bool JumpInput() => player.JumpInput;
-        bool IsGrounded() => controller.VerticalCollisionCheck(false);
-        bool IsNotGrounded() => !IsGrounded();
+        bool IsGrounded() => controller.IsGrounded;
+        bool IsNotGrounded() => !controller.IsGrounded;
         bool IsFalling() => controller.MoveVector.y < 0f;
         bool FinishLanding() => controller.IsLanding == false;
         bool SlideInput() => player.SlideInput && controller.CanSlide;
         bool FinishSliding() => controller.IsSliding == false;
         bool CanWallSlide() => controller.CanWallSlide;
         bool WallSlideCancel() => !controller.CanWallSlide;
-        bool CanHang() => controller.HorizontalCollisionCheck() && controller.CanWallhang;
+        bool CanHang() => controller.CanWallhang;
         bool ClimbInput() => player.ClimbInput;
         bool FinishClimbing() => controller.IsClimbing == false;
     }

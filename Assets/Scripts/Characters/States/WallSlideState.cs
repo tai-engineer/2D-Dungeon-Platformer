@@ -27,6 +27,7 @@ namespace DP2D
 
         public override void Tick()
         {
+            controller.VerticalCollisionCheck(false);
             controller.VerticalMove();
             controller.HorizontalMove(player.MoveInput.x);
             // Character's backside must against the wall

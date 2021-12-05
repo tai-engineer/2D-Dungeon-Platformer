@@ -50,6 +50,7 @@ namespace DP2D
         public bool CurrentSpriteFlip { get => _spriteRenderer.flipX; }
         public Vector2 CurrentPosition { get => transform.position; }
         public BoxCollider2D Box2D { get => _boxCollider; }
+        public bool IsGrounded { get; private set; }
         void Awake()
         {
             _boxCollider = GetComponent<BoxCollider2D>();
@@ -80,9 +81,9 @@ namespace DP2D
             float raycastDistance = 0.1f + _verticalCheckDistance;
 
             Vector2[] raycast = new Vector2[3];
-            raycast[0] = middle + Vector2.left * size.x * 0.3f;
+            raycast[0] = middle + Vector2.left * size.x * 0.35f;
             raycast[1] = middle;
-            raycast[2] = middle + Vector2.right * size.x * 0.3f;
+            raycast[2] = middle + Vector2.right * size.x * 0.35f;
 
             RaycastHit2D[] hits = new RaycastHit2D[3];
             int hitCount = 0;
@@ -91,13 +92,25 @@ namespace DP2D
                 hits[i] = Physics2D.Raycast(raycast[i], direction, raycastDistance, _verticalCheckLayer);
                 Debug.DrawRay(raycast[i], direction * raycastDistance);
                 if (hits[i].collider != null)
+                {
                     hitCount++;
+                    Debug.DrawRay(raycast[i], direction * raycastDistance, Color.green);
+                }
+                else
+                    Debug.DrawRay(raycast[i], direction * raycastDistance, Color.red);
             }
-            if (hitCount < 1)
-                return false;
+            if (hitCount == 0)
+                return;
 
+            RaycastHit2D hit;
             float hitPoint = above ? edge.y + _verticalCheckDistance : edge.y - _verticalCheckDistance;
-            return above ? hits[1].point.y < hitPoint : hits[1].point.y > hitPoint;
+            if (hitCount > 1)
+            {
+                hit = hits[1];
+            }
+            else
+                hit = hits[0].collider != null ? hits[0] : hits[2].collider != null ? hits[2] : hits[1];
+            IsGrounded = above ? hit.point.y < hitPoint : hit.point.y > hitPoint;
         }
         public bool HorizontalCollisionCheck()
         {

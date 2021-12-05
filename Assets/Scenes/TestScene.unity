@@ -947,7 +947,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 522209917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.384, y: -1.371, z: 0}
+  m_LocalPosition: {x: -2.912, y: -1.371, z: 0}
   m_LocalScale: {x: 0.6432812, y: 1.6127697, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2976,7 +2976,7 @@ Camera:
   far clip plane: 1000
   field of view: 35
   orthographic: 1
-  orthographic size: 2.68
+  orthographic size: 1.84
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3000,7 +3000,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 969553508}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.09, y: 0.1, z: -10}
+  m_LocalPosition: {x: -2.01, y: 0.1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3191,7 +3191,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1018082423}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.767, y: -0.873, z: 0}
+  m_LocalPosition: {x: -2.495, y: -0.873, z: 0}
   m_LocalScale: {x: 0.1140668, y: 1.2902932, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4495,21 +4495,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1948696327, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: m_SpriteTilingProperty.pivot.x
-      value: 0.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948696327, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948696327, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5682431053872938186, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: m_FlipX
-      value: 0
+    - target: {fileID: 1948696324, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: _verticalCheckDistance
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 5682431053872938187, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_RootOrder
