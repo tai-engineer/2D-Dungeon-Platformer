@@ -23,6 +23,7 @@ namespace DP2D
 
         public override void Tick()
         {
+            controller.HorizontalCollisionCheck();
             controller.VerticalMove();
         }
     }

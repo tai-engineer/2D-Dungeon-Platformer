@@ -32,7 +32,7 @@ namespace DP2D
         [SerializeField] float _slideCooldown;
         #endregion
         Vector2 _moveVector;
-        public float Gravity { get; private set; }
+        public float Gravity { get; set; }
         public Vector2 MoveVector { get { return _moveVector; } }
         public float MaxJumpSpeed { get { return _maxJumpSpeed; } }
         public float SlideDuration { get { return _slideDuration; } }

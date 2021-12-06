@@ -948,7 +948,7 @@ Transform:
   m_GameObject: {fileID: 522209917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.912, y: -1.371, z: 0}
-  m_LocalScale: {x: 0.6432812, y: 1.6127697, z: 1}
+  m_LocalScale: {x: 0.6432812, y: 3.3873003, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 26
@@ -4498,6 +4498,10 @@ PrefabInstance:
     - target: {fileID: 1948696324, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: _verticalCheckDistance
       value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948696328, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: _stateMachineDebugger._debugTransition
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5682431053872938187, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_RootOrder

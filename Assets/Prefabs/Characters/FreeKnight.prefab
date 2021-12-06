@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stateMachineDebugger:
-    _debugTransition: 1
+    _debugTransition: 0
     _appendConditionsInfo: 1
     _currentState: 
   controller: {fileID: 0}

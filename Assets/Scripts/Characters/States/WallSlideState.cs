@@ -1,3 +1,4 @@
+using UnityEngine;
 namespace DP2D
 {
     public class WallSlideState : IState
@@ -5,6 +6,8 @@ namespace DP2D
         bool _flip;
         bool _spriteFacingLeftOrigin;
         bool _flipOrigin;
+        float _speedReduction = 0.2f;
+        float _oldGravity;
         public WallSlideState(PlayerStateMachine stateMachine, bool spriteFacingLeftOrigin)
         {
             controller = stateMachine.controller;
@@ -17,12 +20,16 @@ namespace DP2D
             animator.SetBool(player.WallSlideHash, true);
             _flipOrigin = controller.CurrentSpriteFlip;
             _flip = !_flipOrigin;
+
+            _oldGravity = controller.Gravity;
+            controller.Gravity *= _speedReduction;
         }
 
         public override void OnExit()
         {
             animator.SetBool(player.WallSlideHash, false);
             controller.SpriteFlip(_flipOrigin);
+            controller.Gravity = _oldGravity;
         }
 
         public override void Tick()
