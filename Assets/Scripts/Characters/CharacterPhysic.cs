@@ -28,6 +28,9 @@ namespace DP2D
         [SerializeField] float _groundAcceleration;
         [SerializeField] float _maxJumpSpeed;
         [SerializeField] float _maxFallSpeed;
+        [SerializeField]
+        [Tooltip("Units per frame = Roll Distance * internal scale")]
+        float _rollDistance;
         [SerializeField] float _slideDuration;
         [SerializeField] float _slideCooldown;
         #endregion
@@ -51,6 +54,8 @@ namespace DP2D
         public Vector2 CurrentPosition { get => transform.position; }
         public BoxCollider2D Box2D { get => _boxCollider; }
         public bool IsGrounded { get; private set; }
+        public bool IsRolling { get; set; }
+        public float RollDistance { get => _rollDistance; }
         void Awake()
         {
             _boxCollider = GetComponent<BoxCollider2D>();
@@ -249,6 +254,7 @@ namespace DP2D
             return hit.point + _climbStandOffset;
 
         }
+        public void RollEnd() => IsRolling = false;
         #endregion
         public void UpdateSpriteFacing()
         {

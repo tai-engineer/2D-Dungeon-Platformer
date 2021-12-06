@@ -27,6 +27,7 @@ namespace DP2D
         [SerializeField] string _wallSlideParameter = "";
         [SerializeField] string _wallHangParameter = "";
         [SerializeField] string _wallClimpParameter = "";
+        [SerializeField] string _rollParameter = "";
 
         #region Animation Hash
         public int SprintHash { get; private set;}
@@ -40,6 +41,7 @@ namespace DP2D
         public int WallSlideHash { get; private set; }
         public int WallHangHash { get; private set; }
         public int WallClimbHash { get; private set; }
+        public int RollHash { get; private set; }
         #endregion
         #region Input
         public Vector3 MoveInput { get; private set; }
@@ -49,6 +51,7 @@ namespace DP2D
         public bool ThrowInput { get; private set; }
         public bool SlideInput { get; private set; }
         public bool ClimbInput { get; private set; }
+        public bool RollInput { get; private set; }
         #endregion
 
         #region Stats
@@ -95,6 +98,7 @@ namespace DP2D
                 _input.throwEvent   += OnThrow;
                 _input.slideEvent   += OnSlide;
                 _input.climbEvent   += OnClimb;
+                _input.rollEvent   += OnRoll;
             }
 
             Health = _startingHealth.Value;
@@ -112,6 +116,7 @@ namespace DP2D
                 _input.throwEvent -= OnThrow;
                 _input.slideEvent -= OnSlide;
                 _input.climbEvent -= OnClimb;
+                _input.rollEvent -= OnRoll;
             }
         }
         #endregion
@@ -181,6 +186,10 @@ namespace DP2D
         {
             ClimbInput = climbInput;
         }
+        void OnRoll(bool rollInput)
+        {
+            RollInput = rollInput;
+        }
         #endregion
         #region Animation Methods
         void GetAnimationHash()
@@ -196,6 +205,7 @@ namespace DP2D
             WallSlideHash = GetHash(_wallSlideParameter);
             WallHangHash = GetHash(_wallHangParameter);
             WallClimbHash = GetHash(_wallClimpParameter);
+            RollHash = GetHash(_rollParameter);
         }
 
         int GetHash(string str)

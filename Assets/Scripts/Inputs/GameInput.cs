@@ -75,9 +75,17 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Climp"",
+                    ""name"": ""Climb"",
                     ""type"": ""Button"",
                     ""id"": ""8217f539-996e-4985-99a1-b95b40a3c709"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Roll"",
+                    ""type"": ""Button"",
+                    ""id"": ""803080f6-3937-48ae-a9af-583810ffa67b"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -212,7 +220,18 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Climp"",
+                    ""action"": ""Climb"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""573b895a-b052-4ef6-abd6-fc312fd9b8cc"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Roll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -236,7 +255,8 @@ public class @GameInput : IInputActionCollection, IDisposable
         m_PlayerInput_Sprint = m_PlayerInput.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerInput_Throw = m_PlayerInput.FindAction("Throw", throwIfNotFound: true);
         m_PlayerInput_Slide = m_PlayerInput.FindAction("Slide", throwIfNotFound: true);
-        m_PlayerInput_Climp = m_PlayerInput.FindAction("Climp", throwIfNotFound: true);
+        m_PlayerInput_Climb = m_PlayerInput.FindAction("Climb", throwIfNotFound: true);
+        m_PlayerInput_Roll = m_PlayerInput.FindAction("Roll", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -293,7 +313,8 @@ public class @GameInput : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerInput_Sprint;
     private readonly InputAction m_PlayerInput_Throw;
     private readonly InputAction m_PlayerInput_Slide;
-    private readonly InputAction m_PlayerInput_Climp;
+    private readonly InputAction m_PlayerInput_Climb;
+    private readonly InputAction m_PlayerInput_Roll;
     public struct PlayerInputActions
     {
         private @GameInput m_Wrapper;
@@ -305,7 +326,8 @@ public class @GameInput : IInputActionCollection, IDisposable
         public InputAction @Sprint => m_Wrapper.m_PlayerInput_Sprint;
         public InputAction @Throw => m_Wrapper.m_PlayerInput_Throw;
         public InputAction @Slide => m_Wrapper.m_PlayerInput_Slide;
-        public InputAction @Climp => m_Wrapper.m_PlayerInput_Climp;
+        public InputAction @Climb => m_Wrapper.m_PlayerInput_Climb;
+        public InputAction @Roll => m_Wrapper.m_PlayerInput_Roll;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -336,9 +358,12 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Slide.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSlide;
                 @Slide.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSlide;
                 @Slide.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSlide;
-                @Climp.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnClimb;
-                @Climp.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnClimb;
-                @Climp.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnClimb;
+                @Climb.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnClimb;
+                @Climb.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnClimb;
+                @Climb.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnClimb;
+                @Roll.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnRoll;
+                @Roll.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnRoll;
+                @Roll.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnRoll;
             }
             m_Wrapper.m_PlayerInputActionsCallbackInterface = instance;
             if (instance != null)
@@ -364,9 +389,12 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Slide.started += instance.OnSlide;
                 @Slide.performed += instance.OnSlide;
                 @Slide.canceled += instance.OnSlide;
-                @Climp.started += instance.OnClimb;
-                @Climp.performed += instance.OnClimb;
-                @Climp.canceled += instance.OnClimb;
+                @Climb.started += instance.OnClimb;
+                @Climb.performed += instance.OnClimb;
+                @Climb.canceled += instance.OnClimb;
+                @Roll.started += instance.OnRoll;
+                @Roll.performed += instance.OnRoll;
+                @Roll.canceled += instance.OnRoll;
             }
         }
     }
@@ -390,5 +418,6 @@ public class @GameInput : IInputActionCollection, IDisposable
         void OnThrow(InputAction.CallbackContext context);
         void OnSlide(InputAction.CallbackContext context);
         void OnClimb(InputAction.CallbackContext context);
+        void OnRoll(InputAction.CallbackContext context);
     }
 }

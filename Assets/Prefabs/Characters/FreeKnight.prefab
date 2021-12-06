@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stateMachineDebugger:
-    _debugTransition: 0
+    _debugTransition: 1
     _appendConditionsInfo: 1
     _currentState: 
   controller: {fileID: 0}
@@ -201,6 +201,7 @@ MonoBehaviour:
   _wallSlideParameter: WallSlide
   _wallHangParameter: WallHang
   _wallClimpParameter: WallClimb
+  _rollParameter: Roll
 --- !u!114 &1948696324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,5 +227,6 @@ MonoBehaviour:
   _groundAcceleration: 30
   _maxJumpSpeed: 4
   _maxFallSpeed: 2
+  _rollDistance: 15
   _slideDuration: 0.3
   _slideCooldown: 0.5

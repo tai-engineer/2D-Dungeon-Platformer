@@ -62,9 +62,17 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Climp",
+                    "name": "Climb",
                     "type": "Button",
                     "id": "8217f539-996e-4985-99a1-b95b40a3c709",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Roll",
+                    "type": "Button",
+                    "id": "803080f6-3937-48ae-a9af-583810ffa67b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -199,7 +207,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Climp",
+                    "action": "Climb",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "573b895a-b052-4ef6-abd6-fc312fd9b8cc",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Roll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
