@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1948696328}
   - component: {fileID: 1948696329}
   - component: {fileID: 1948696324}
+  - component: {fileID: 5682431053669073872}
   m_Layer: 6
   m_Name: FreeKnight
   m_TagString: Untagged
@@ -202,6 +203,8 @@ MonoBehaviour:
   _wallHangParameter: WallHang
   _wallClimpParameter: WallClimb
   _rollParameter: Roll
+  _attack1Parameter: Attack1
+  _attack2Parameter: Attack2
 --- !u!114 &1948696324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,3 +233,35 @@ MonoBehaviour:
   _rollDistance: 15
   _slideDuration: 0.3
   _slideCooldown: 0.5
+  _attack1Damage: 0
+  _attack2Damage: 0
+--- !u!114 &5682431053669073872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5682431053872938189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 122bf5e78e648c941933bd5d5c25d109, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  type: 0
+  offset: {x: 0.24, y: 0.20642966}
+  size: {x: 0.27, y: 0.4149164}
+  angle: 45
+  radius: 1
+  viewDirection: {x: -1, y: 0}
+  canHitTrigger: 0
+  disableDamageAfterHit: 1
+  hittableLayer:
+    serializedVersion: 2
+    m_Bits: 192
+  onDamageableHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onNonDamageableHit:
+    m_PersistentCalls:
+      m_Calls: []

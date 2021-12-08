@@ -5,13 +5,14 @@ namespace DP2D
 {
     // Handle player physics
     [RequireComponent(typeof(BoxCollider2D), typeof(Rigidbody2D))]
-    [RequireComponent(typeof(SpriteRenderer))]
+    [RequireComponent(typeof(SpriteRenderer), typeof(Damager))]
     public class CharacterPhysic : MonoBehaviour
     {
         #region Components
         BoxCollider2D _boxCollider;
         Rigidbody2D _rb2D;
         SpriteRenderer _spriteRenderer;
+        Damager _meleeDamager;
         #endregion
         #region Serializable Fields
         [SerializeField] bool _originalSpriteFacingLeft;
@@ -33,6 +34,11 @@ namespace DP2D
         float _rollDistance;
         [SerializeField] float _slideDuration;
         [SerializeField] float _slideCooldown;
+
+        [Header("Combat")]
+        [SerializeField] int _attack1Damage;
+        [SerializeField] int _attack2Damage;
+        [SerializeField] float _meleeAttackDash;
         #endregion
         Vector2 _moveVector;
         public float Gravity { get; set; }
@@ -40,7 +46,7 @@ namespace DP2D
         public float MaxJumpSpeed { get { return _maxJumpSpeed; } }
         public float SlideDuration { get { return _slideDuration; } }
         public bool IsLanding { get; private set; }
-        public bool CanSlide 
+        public bool CanSlide
         {
             get => (Time.time - _slideEndTime) > _slideCooldown;
         }
@@ -56,14 +62,24 @@ namespace DP2D
         public bool IsGrounded { get; private set; }
         public bool IsRolling { get; set; }
         public float RollDistance { get => _rollDistance; }
+        public bool IsAttacking { get; set; }
+        public bool NextAttackEnable { get; set; } = false;
+        public int Attack1Damage { get => _attack1Damage; }
+        public int Attack2Damage { get => _attack2Damage; }
+        public float MeleeAttackDash { get => _meleeAttackDash; }
         void Awake()
         {
             _boxCollider = GetComponent<BoxCollider2D>();
             _rb2D = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _meleeDamager = GetComponent<Damager>();
 
+        }
+        private void Start()
+        {
             Gravity = Physics2D.gravity.y;
             FaceDirection = _originalSpriteFacingLeft ? Vector2.left : Vector2.right;
+            DisableMeleeDamage();
         }
         void FixedUpdate()
         {
@@ -92,7 +108,7 @@ namespace DP2D
 
             RaycastHit2D[] hits = new RaycastHit2D[3];
             int hitCount = 0;
-            for(int i = 0; i < raycast.Length; i++)
+            for (int i = 0; i < raycast.Length; i++)
             {
                 hits[i] = Physics2D.Raycast(raycast[i], direction, raycastDistance, _verticalCheckLayer);
                 Debug.DrawRay(raycast[i], direction * raycastDistance);
@@ -190,6 +206,10 @@ namespace DP2D
         {
             _moveVector.y += value;
         }
+        public void AddHorizontalMovement(float value)
+        {
+            _moveVector.x += value;
+        }
         public void SetMoveVector(Vector2 value)
         {
             _moveVector = value;
@@ -262,5 +282,29 @@ namespace DP2D
             _spriteRenderer.flipX = _originalSpriteFacingLeft ^ (FaceDirection.x < 0);
         }
         public void SpriteFlip(bool flip) => _spriteRenderer.flipX = flip;
+        #region Combat
+        public void EnableMeleeDamage()
+        {
+            _meleeDamager.EnableDamage();
+        }
+        public void DisableMeleeDamage()
+        {
+            _meleeDamager.DisableDamage();
+            NextAttackEnable = false;
+        }
+        public void SetAttackDamage(int damage)
+        {
+            _meleeDamager.damage = damage;
+        }
+        public void Attack1End()
+        {
+            IsAttacking = NextAttackEnable;
+        }
+        public void AttackEnd()
+        {
+            IsAttacking = false;
+            NextAttackEnable = false;
+        }
+        #endregion
     }
 }

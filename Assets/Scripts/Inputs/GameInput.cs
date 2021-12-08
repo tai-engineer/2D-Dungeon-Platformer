@@ -89,6 +89,14 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""ed950634-2b63-4cce-b07c-3cddf8c6b6e8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -234,6 +242,17 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""action"": ""Roll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""441a3202-ee25-4871-932f-7ee45b0688a3"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -257,6 +276,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         m_PlayerInput_Slide = m_PlayerInput.FindAction("Slide", throwIfNotFound: true);
         m_PlayerInput_Climb = m_PlayerInput.FindAction("Climb", throwIfNotFound: true);
         m_PlayerInput_Roll = m_PlayerInput.FindAction("Roll", throwIfNotFound: true);
+        m_PlayerInput_Attack = m_PlayerInput.FindAction("Attack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -315,6 +335,7 @@ public class @GameInput : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerInput_Slide;
     private readonly InputAction m_PlayerInput_Climb;
     private readonly InputAction m_PlayerInput_Roll;
+    private readonly InputAction m_PlayerInput_Attack;
     public struct PlayerInputActions
     {
         private @GameInput m_Wrapper;
@@ -328,6 +349,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         public InputAction @Slide => m_Wrapper.m_PlayerInput_Slide;
         public InputAction @Climb => m_Wrapper.m_PlayerInput_Climb;
         public InputAction @Roll => m_Wrapper.m_PlayerInput_Roll;
+        public InputAction @Attack => m_Wrapper.m_PlayerInput_Attack;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -364,6 +386,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Roll.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnRoll;
                 @Roll.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnRoll;
                 @Roll.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnRoll;
+                @Attack.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnAttack;
+                @Attack.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnAttack;
+                @Attack.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnAttack;
             }
             m_Wrapper.m_PlayerInputActionsCallbackInterface = instance;
             if (instance != null)
@@ -395,6 +420,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Roll.started += instance.OnRoll;
                 @Roll.performed += instance.OnRoll;
                 @Roll.canceled += instance.OnRoll;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
             }
         }
     }
@@ -419,5 +447,6 @@ public class @GameInput : IInputActionCollection, IDisposable
         void OnSlide(InputAction.CallbackContext context);
         void OnClimb(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

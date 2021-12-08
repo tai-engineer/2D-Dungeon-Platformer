@@ -28,6 +28,8 @@ namespace DP2D
         [SerializeField] string _wallHangParameter = "";
         [SerializeField] string _wallClimpParameter = "";
         [SerializeField] string _rollParameter = "";
+        [SerializeField] string _attack1Parameter = "";
+        [SerializeField] string _attack2Parameter = "";
 
         #region Animation Hash
         public int SprintHash { get; private set;}
@@ -42,6 +44,8 @@ namespace DP2D
         public int WallHangHash { get; private set; }
         public int WallClimbHash { get; private set; }
         public int RollHash { get; private set; }
+        public int Attack1Hash { get; private set; }
+        public int Attack2Hash { get; private set; }
         #endregion
         #region Input
         public Vector3 MoveInput { get; private set; }
@@ -52,6 +56,27 @@ namespace DP2D
         public bool SlideInput { get; private set; }
         public bool ClimbInput { get; private set; }
         public bool RollInput { get; private set; }
+
+        /// <summary>
+        /// Attack input will be reset when being read.
+        /// This prevents character keeps attacking when user does not want to release the button.
+        /// </summary>
+        bool _attackInput = false;
+        public bool AttackInput
+        {
+            get
+            {
+                if (_attackInput)
+                {
+                    _attackInput = false;
+                    return true;
+                }
+                return false;
+            }
+
+            private set => _attackInput = value;
+        }
+        public bool AttackInputEnable { get; private set; } = true;
         #endregion
 
         #region Stats
@@ -99,6 +124,7 @@ namespace DP2D
                 _input.slideEvent   += OnSlide;
                 _input.climbEvent   += OnClimb;
                 _input.rollEvent   += OnRoll;
+                _input.attackEvent   += OnAttack;
             }
 
             Health = _startingHealth.Value;
@@ -117,6 +143,7 @@ namespace DP2D
                 _input.slideEvent -= OnSlide;
                 _input.climbEvent -= OnClimb;
                 _input.rollEvent -= OnRoll;
+                _input.attackEvent -= OnAttack;
             }
         }
         #endregion
@@ -190,6 +217,11 @@ namespace DP2D
         {
             RollInput = rollInput;
         }
+        
+        void OnAttack(bool attackInput)
+        {
+            AttackInput = AttackInputEnable ? attackInput : false;
+        }
         #endregion
         #region Animation Methods
         void GetAnimationHash()
@@ -206,12 +238,19 @@ namespace DP2D
             WallHangHash = GetHash(_wallHangParameter);
             WallClimbHash = GetHash(_wallClimpParameter);
             RollHash = GetHash(_rollParameter);
+            Attack1Hash = GetHash(_attack1Parameter);
+            Attack2Hash = GetHash(_attack2Parameter);
         }
 
         int GetHash(string str)
         {
             return (str != "") ? Animator.StringToHash(str) : 0;
         }
+        #endregion
+
+        #region Combat
+        public void EnableInputAttack() => AttackInputEnable = true;
+        public void DisableInputAttack() => AttackInputEnable = false;
         #endregion
     }
 }

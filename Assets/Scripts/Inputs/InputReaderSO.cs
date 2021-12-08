@@ -16,6 +16,7 @@ public class InputReaderSO : ScriptableObject, GameInput.IPlayerInputActions
     public event UnityAction<bool> slideEvent = delegate { };
     public event UnityAction<bool> climbEvent = delegate { };
     public event UnityAction<bool> rollEvent = delegate { };
+    public event UnityAction<bool> attackEvent = delegate { };
     void OnEnable()
     {
         if(_gameInput == null)
@@ -123,6 +124,18 @@ public class InputReaderSO : ScriptableObject, GameInput.IPlayerInputActions
         else if (context.phase == InputActionPhase.Canceled)
         {
             rollEvent.Invoke(false);
+        }
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            attackEvent.Invoke(true);
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            attackEvent.Invoke(false);
         }
     }
 }

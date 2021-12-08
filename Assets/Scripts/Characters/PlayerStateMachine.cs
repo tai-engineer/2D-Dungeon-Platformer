@@ -39,16 +39,19 @@ namespace DP2D
             var _wallHangState = new WallHangState(this);
             var _wallClimbState = new WallClimbState(this);
             var _rollState = new RollState(this);
+            var _attackState = new AttackState(this);
 
             At(_idleState, _runState, IsMoving);
             At(_idleState, _jumpState, JumpInput);
             At(_idleState, _fallState, IsNotGrounded);
+            At(_idleState, _attackState, AttackInput);
 
             At(_runState, _idleState, IsStopMoving);
             At(_runState, _jumpState, JumpInput);
             At(_runState, _slideState, SlideInput);
             At(_runState, _fallState, IsNotGrounded);
             At(_runState, _rollState, RollInput);
+            At(_runState, _attackState, AttackInput);
 
             At(_jumpState, _fallState, IsFalling);
 
@@ -77,6 +80,7 @@ namespace DP2D
             At(_rollState, _idleState, FinishRolling);
             At(_rollState, _fallState, IsNotGrounded);
 
+            At(_attackState, _idleState, IsNotAttacking);
             _stateMachine.SetState(_idleState);
 #if UNITY_EDITOR
             _stateMachineDebugger.Awake(_stateMachine);
@@ -105,5 +109,7 @@ namespace DP2D
         bool FinishClimbing() => controller.IsClimbing == false;
         bool FinishRolling() => controller.IsRolling == false;
         bool RollInput() => player.RollInput;
+        bool AttackInput() => player.AttackInput;
+        bool IsNotAttacking() => !controller.IsAttacking;
     }
 }
