@@ -233,8 +233,9 @@ MonoBehaviour:
   _rollDistance: 15
   _slideDuration: 0.3
   _slideCooldown: 0.5
-  _attack1Damage: 0
-  _attack2Damage: 0
+  _attack1Damage: 1
+  _attack2Damage: 2
+  _meleeAttackDash: 0.2
 --- !u!114 &5682431053669073872
 MonoBehaviour:
   m_ObjectHideFlags: 0
