@@ -4227,6 +4227,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1948696324, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: _attack1Damage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948696324, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: _attack2Damage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948696324, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: _meleeAttackDash
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 5682431053872938187, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_RootOrder
       value: 23
