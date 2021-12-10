@@ -4227,22 +4227,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1948696327, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: m_SpriteTilingProperty.pivot.x
-      value: 0.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948696327, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948696327, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948696329, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
-      propertyPath: _crouchParameter
-      value: Crouch
-      objectReference: {fileID: 0}
     - target: {fileID: 5682431053872938187, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_RootOrder
       value: 23

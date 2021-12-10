@@ -62,7 +62,6 @@ namespace DP2D.Debugger
                 return;
 
             _logBuilder.Clear();
-            _logBuilder.AppendLine($" StateMachine state changed");
             _logBuilder.Append($"{_currentState}  {SHARP_ARROW}  {_targetState}");
 
             if(_appendConditionsInfo)

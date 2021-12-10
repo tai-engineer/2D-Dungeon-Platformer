@@ -43,6 +43,8 @@ namespace DP2D
         Vector2 _moveVector;
         public float Gravity { get; set; }
         public Vector2 MoveVector { get { return _moveVector; } }
+        public float MaxGroundSpeed { get { return _maxGroundSpeed; } }
+        public float MaxGroundAcceleration { get { return _groundAcceleration; } }
         public float MaxJumpSpeed { get { return _maxJumpSpeed; } }
         public float SlideDuration { get { return _slideDuration; } }
         public bool IsLanding { get; private set; }
@@ -220,7 +222,11 @@ namespace DP2D
         }
         public void HorizontalMove(float moveInput)
         {
-            float moveAmount = Mathf.MoveTowards(_moveVector.x, moveInput * _maxGroundSpeed, Time.deltaTime * _groundAcceleration);
+            HorizontalMove(moveInput, _maxGroundSpeed);
+        }
+        public void HorizontalMove(float moveInput, float speed)
+        {
+            float moveAmount = Mathf.MoveTowards(_moveVector.x, moveInput * speed, Time.deltaTime * _groundAcceleration);
             SetHorizontalMovement(moveAmount);
             UpdateSpriteFacing();
         }
