@@ -205,6 +205,7 @@ MonoBehaviour:
   _rollParameter: Roll
   _attack1Parameter: Attack1
   _attack2Parameter: Attack2
+  _crouchParameter: Crouch
 --- !u!114 &1948696324
 MonoBehaviour:
   m_ObjectHideFlags: 0

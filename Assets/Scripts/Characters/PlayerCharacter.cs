@@ -30,6 +30,7 @@ namespace DP2D
         [SerializeField] string _rollParameter = "";
         [SerializeField] string _attack1Parameter = "";
         [SerializeField] string _attack2Parameter = "";
+        [SerializeField] string _crouchParameter = "";
 
         #region Animation Hash
         public int SprintHash { get; private set;}
@@ -46,6 +47,7 @@ namespace DP2D
         public int RollHash { get; private set; }
         public int Attack1Hash { get; private set; }
         public int Attack2Hash { get; private set; }
+        public int CrouchHash { get; private set; }
         #endregion
         #region Input
         public Vector3 MoveInput { get; private set; }
@@ -56,6 +58,7 @@ namespace DP2D
         public bool SlideInput { get; private set; }
         public bool ClimbInput { get; private set; }
         public bool RollInput { get; private set; }
+        public bool CrouchInput { get; private set; }
 
         /// <summary>
         /// Attack input will be reset when being read.
@@ -185,9 +188,9 @@ namespace DP2D
         {
             ShootInput = shootInput;
         }
-        void OnCrouch()
+        void OnCrouch(bool crouchInput)
         {
-            Debug.Log("Crouching");
+            CrouchInput = crouchInput;
         }
         void OnJump(bool jumpInput)
         {
@@ -240,6 +243,7 @@ namespace DP2D
             RollHash = GetHash(_rollParameter);
             Attack1Hash = GetHash(_attack1Parameter);
             Attack2Hash = GetHash(_attack2Parameter);
+            CrouchHash = GetHash(_crouchParameter);
         }
 
         int GetHash(string str)
