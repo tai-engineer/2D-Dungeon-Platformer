@@ -49,6 +49,7 @@ namespace DP2D
         public int Attack2Hash { get; private set; }
         public int CrouchHash { get; private set; }
         public int CrouchWalkHash { get; private set; }
+        public int CrouchAttackHash { get; private set; }
         #endregion
         #region Input
         public Vector3 MoveInput { get; private set; }
@@ -246,6 +247,7 @@ namespace DP2D
             Attack2Hash = GetHash(_attack2Parameter);
             CrouchHash = GetHash(_crouchParameter);
             CrouchWalkHash = MoveHash;
+            CrouchAttackHash = Attack1Hash;
         }
 
         int GetHash(string str)

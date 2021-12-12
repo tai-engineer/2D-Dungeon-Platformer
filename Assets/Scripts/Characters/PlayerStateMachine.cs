@@ -42,6 +42,7 @@ namespace DP2D
             var _attackState = new AttackState(this);
             var _crouchState = new CrouchState(this);
             var _crouchWalkState = new CrouchWalkState(this);
+            var _crouchAttackState = new CrouchAttackState(this);
 
             At(_idleState, _runState, IsMoving);
             At(_idleState, _jumpState, JumpInput);
@@ -87,10 +88,14 @@ namespace DP2D
 
             At(_crouchState, _idleState, CrouchInputCancel);
             At(_crouchState, _crouchWalkState, IsMoving);
+            At(_crouchState, _crouchAttackState, AttackInput);
 
             At(_crouchWalkState, _idleState, CrouchInputCancel);
             At(_crouchWalkState, _crouchState, IsStopMoving);
             At(_crouchWalkState, _fallState, IsNotGrounded);
+            At(_crouchWalkState, _crouchAttackState, AttackInput);
+
+            At(_crouchAttackState, _crouchState, IsNotAttacking);
             _stateMachine.SetState(_idleState);
 #if UNITY_EDITOR
             _stateMachineDebugger.Awake(_stateMachine);
