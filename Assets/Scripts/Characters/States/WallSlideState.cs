@@ -18,7 +18,7 @@ namespace DP2D
         public override void OnEnter()
         {
             animator.SetBool(player.WallSlideHash, true);
-            _flipOrigin = controller.CurrentSpriteFlip;
+            _flipOrigin = controller.IsFlip;
             _flip = !_flipOrigin;
 
             _oldGravity = controller.Gravity;
@@ -28,7 +28,7 @@ namespace DP2D
         public override void OnExit()
         {
             animator.SetBool(player.WallSlideHash, false);
-            controller.SpriteFlip(_flipOrigin);
+            controller.Flip(_flipOrigin);
             controller.Gravity = _oldGravity;
         }
 
@@ -39,7 +39,7 @@ namespace DP2D
             controller.HorizontalMove(player.MoveInput.x);
             // Character's backside must against the wall
             _flip = player.MoveInput.x > 0 ? !_spriteFacingLeftOrigin : player.MoveInput.x < 0 ? _spriteFacingLeftOrigin : _flip;
-            controller.SpriteFlip(_flip);
+            controller.Flip(_flip);
         }
     }
 }

@@ -58,7 +58,7 @@ namespace DP2D
         public bool CanWallhang { get; set; }
         public bool IsClimbing { get; set; }
         public bool CanWallSlide { get; set; }
-        public bool CurrentSpriteFlip { get => _spriteRenderer.flipX; }
+        public bool IsFlip { get => transform.localScale.x < 0f; }
         public Vector2 CurrentPosition { get => transform.position; }
         public BoxCollider2D Box2D { get => _boxCollider; }
         public bool IsGrounded { get; private set; }
@@ -282,12 +282,21 @@ namespace DP2D
         }
         public void RollEnd() => IsRolling = false;
         #endregion
-        public void UpdateSpriteFacing()
+        #region Direction
+        public void UpdateFaceDirection()
         {
             FaceDirection = _moveVector.x < 0 ? Vector2.left : _moveVector.x > 0 ? Vector2.right : FaceDirection;
-            _spriteRenderer.flipX = _originalSpriteFacingLeft ^ (FaceDirection.x < 0);
+            bool flip = _originalSpriteFacingLeft ^ (FaceDirection.x < 0);
+            Flip(flip);
         }
-        public void SpriteFlip(bool flip) => _spriteRenderer.flipX = flip;
+        public void Flip(bool flip)
+        {
+            Vector2 scale = transform.localScale;
+            scale.x = flip ? -1f : 1f;
+            transform.localScale = scale;
+        }
+
+        #endregion
         #region Combat
         public void EnableMeleeDamage()
         {
