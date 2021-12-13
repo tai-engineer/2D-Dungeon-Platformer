@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1948696329}
   - component: {fileID: 1948696324}
   - component: {fileID: 5682431053669073872}
+  - component: {fileID: 939760220295153410}
   m_Layer: 6
   m_Name: FreeKnight
   m_TagString: Untagged
@@ -206,6 +207,35 @@ MonoBehaviour:
   _attack1Parameter: Attack1
   _attack2Parameter: Attack2
   _crouchParameter: Crouch
+  _hitParameter: Hit
+  _dieParameter: Die
+  onDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1948696324}
+        m_TargetAssemblyTypeName: DP2D.CharacterPhysic, Assembly-CSharp
+        m_MethodName: DisablePhysics
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: -4797225298529356432}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Die
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1948696324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,10 +290,49 @@ MonoBehaviour:
   disableDamageAfterHit: 1
   hittableLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 128
   onDamageableHit:
     m_PersistentCalls:
       m_Calls: []
   onNonDamageableHit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &939760220295153410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5682431053872938189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a40dd27320a2e1741aff53c2f1d7c401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1948696324}
+        m_TargetAssemblyTypeName: DP2D.CharacterPhysic, Assembly-CSharp
+        m_MethodName: set_IsHit
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1948696329}
+        m_TargetAssemblyTypeName: DP2D.PlayerCharacter, Assembly-CSharp
+        m_MethodName: TakeDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2

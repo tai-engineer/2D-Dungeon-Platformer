@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Common.Singleton;
+using UnityEngine.Events;
 namespace DP2D
 {
-    public class PlayerCharacter : Singleton<PlayerCharacter>
+    public class PlayerCharacter : MonoBehaviour
     {
         [Header("Input")]
         [SerializeField] InputReaderSO _input;
@@ -31,7 +32,10 @@ namespace DP2D
         [SerializeField] string _attack1Parameter = "";
         [SerializeField] string _attack2Parameter = "";
         [SerializeField] string _crouchParameter = "";
+        [SerializeField] string _hitParameter = "";
+        [SerializeField] string _dieParameter = "";
 
+        public UnityEvent onDie;
         #region Animation Hash
         public int SprintHash { get; private set;}
         public int MoveHash { get; private set; }
@@ -50,6 +54,8 @@ namespace DP2D
         public int CrouchHash { get; private set; }
         public int CrouchWalkHash { get; private set; }
         public int CrouchAttackHash { get; private set; }
+        public int HitHash { get; private set; }
+        public int DieHash { get; private set; }
         #endregion
         #region Input
         public Vector3 MoveInput { get; private set; }
@@ -111,9 +117,8 @@ namespace DP2D
         #endregion
 
         #region Unity Executions
-        protected override void Awake()
+        void Awake()
         {
-            base.Awake();
             GetAnimationHash();
         }
         void OnEnable()
@@ -166,7 +171,10 @@ namespace DP2D
         {
             Health -= amount;
             if (Health < 0)
-                Health = 0;
+            {
+                Health = -1;
+                Die();
+            }
         }
         public void IncreaseEnergy(int amount)
         {
@@ -183,6 +191,10 @@ namespace DP2D
         public void TakeDamage(Damager damager, Damageable damageable)
         {
             DecreaseHealth(damager.damage);
+        }
+        public void Die()
+        {
+            onDie.Invoke();
         }
         #endregion
         #region Input Methods
@@ -248,6 +260,8 @@ namespace DP2D
             CrouchHash = GetHash(_crouchParameter);
             CrouchWalkHash = MoveHash;
             CrouchAttackHash = Attack1Hash;
+            HitHash = GetHash(_hitParameter);
+            DieHash = GetHash(_dieParameter);
         }
 
         int GetHash(string str)

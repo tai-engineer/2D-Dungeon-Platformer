@@ -69,6 +69,7 @@ namespace DP2D
         public int Attack1Damage { get => _attack1Damage; }
         public int Attack2Damage { get => _attack2Damage; }
         public float MeleeAttackDash { get => _meleeAttackDash; }
+        public bool IsHit { get; set; }
         void Awake()
         {
             _boxCollider = GetComponent<BoxCollider2D>();
@@ -92,7 +93,7 @@ namespace DP2D
             Vector2 movement = _moveVector * Time.deltaTime;
             _rb2D.MovePosition(_rb2D.position + movement);
         }
-        #region Collision Check
+        #region Physics
         public void VerticalCollisionCheck(bool above)
         {
             IsGrounded = false;
@@ -194,6 +195,12 @@ namespace DP2D
                 return hits[0].collider == null;
             return false;
         }
+        public void DisablePhysics()
+        {
+            ResetMoveVector();
+            DisableMeleeDamage();
+            _boxCollider.enabled = false;
+        }
         #endregion
         #region Movement
         public void SetHorizontalMovement(float value)
@@ -228,7 +235,7 @@ namespace DP2D
         {
             float moveAmount = Mathf.MoveTowards(_moveVector.x, moveInput * speed, Time.deltaTime * _groundAcceleration);
             SetHorizontalMovement(moveAmount);
-            UpdateSpriteFacing();
+            UpdateFaceDirection();
         }
         public void VerticalMove()
         {

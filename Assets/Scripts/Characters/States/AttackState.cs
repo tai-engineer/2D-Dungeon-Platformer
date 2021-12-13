@@ -53,6 +53,7 @@ namespace DP2D
         {
             animator.SetBool(player.Attack2Hash, true);
             controller.SetAttackDamage(controller.Attack2Damage);
+            controller.EnableMeleeDamage();
         }
     }
 }

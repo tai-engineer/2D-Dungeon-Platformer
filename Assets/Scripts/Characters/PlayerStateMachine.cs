@@ -43,12 +43,14 @@ namespace DP2D
             var _crouchState = new CrouchState(this);
             var _crouchWalkState = new CrouchWalkState(this);
             var _crouchAttackState = new CrouchAttackState(this);
+            var _hitState = new HitState(this);
 
             At(_idleState, _runState, IsMoving);
             At(_idleState, _jumpState, JumpInput);
             At(_idleState, _fallState, IsNotGrounded);
             At(_idleState, _attackState, AttackInput);
             At(_idleState, _crouchState, CrouchInput);
+            At(_idleState, _hitState, IsHit);
 
             At(_runState, _idleState, IsStopMoving);
             At(_runState, _jumpState, JumpInput);
@@ -56,46 +58,62 @@ namespace DP2D
             At(_runState, _fallState, IsNotGrounded);
             At(_runState, _rollState, RollInput);
             At(_runState, _attackState, AttackInput);
+            At(_runState, _hitState, IsHit);
 
             At(_jumpState, _fallState, IsFalling);
+            At(_jumpState, _hitState, IsHit);
 
             At(_fallState, _landState, IsGrounded);
             At(_fallState, _wallHangState, CanHang);
             At(_fallState, _wallSlideState, CanWallSlide);
+            At(_fallState, _hitState, IsHit);
 
             At(_landState, _idleState, FinishLanding);
 
             At(_slideState, _idleState, FinishSliding);
             At(_slideState, _fallState, IsNotGrounded);
             At(_slideState, _jumpState, JumpInput);
+            At(_slideState, _hitState, IsHit);
 
             At(_wallSlideState, _idleState, IsGrounded);
             At(_wallSlideState, _fallState, WallSlideCancel);
             At(_wallSlideState, _wallSlideJumpState, JumpInput);
+            At(_wallSlideState, _hitState, IsHit);
 
             At(_wallSlideJumpState, _fallState, IsFalling);
+            At(_wallSlideJumpState, _hitState, IsHit);
 
             At(_wallHangState, _fallState, IsFalling);
             At(_wallHangState, _wallSlideJumpState, JumpInput);
             At(_wallHangState, _wallClimbState, ClimbInput);
+            At(_wallHangState, _hitState, IsHit);
 
             At(_wallClimbState, _idleState, FinishClimbing);
+            At(_wallClimbState, _hitState, IsHit);
 
             At(_rollState, _idleState, FinishRolling);
             At(_rollState, _fallState, IsNotGrounded);
 
             At(_attackState, _idleState, IsNotAttacking);
+            At(_attackState, _hitState, IsHit);
 
             At(_crouchState, _idleState, CrouchInputCancel);
             At(_crouchState, _crouchWalkState, IsMoving);
             At(_crouchState, _crouchAttackState, AttackInput);
+            At(_crouchState, _hitState, IsHit);
 
             At(_crouchWalkState, _idleState, CrouchInputCancel);
             At(_crouchWalkState, _crouchState, IsStopMoving);
             At(_crouchWalkState, _fallState, IsNotGrounded);
             At(_crouchWalkState, _crouchAttackState, AttackInput);
+            At(_crouchWalkState, _hitState, IsHit);
 
             At(_crouchAttackState, _crouchState, IsNotAttacking);
+            At(_crouchAttackState, _hitState, IsHit);
+
+            At(_hitState, _idleState, IsGrounded);
+            At(_hitState, _fallState, IsNotGrounded);
+
             _stateMachine.SetState(_idleState);
 #if UNITY_EDITOR
             _stateMachineDebugger.Awake(_stateMachine);
@@ -128,5 +146,6 @@ namespace DP2D
         bool IsNotAttacking() => !controller.IsAttacking;
         bool CrouchInput() => player.CrouchInput;
         bool CrouchInputCancel() => !player.CrouchInput;
+        bool IsHit() => controller.IsHit;
     }
 }
