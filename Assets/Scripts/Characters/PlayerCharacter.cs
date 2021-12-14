@@ -35,6 +35,9 @@ namespace DP2D
         [SerializeField] string _hitParameter = "";
         [SerializeField] string _dieParameter = "";
 
+        [Header("Effects")]
+        public GameObject splashBlood;
+        public Transform bloodTransform;
         public UnityEvent onDie;
         #region Animation Hash
         public int SprintHash { get; private set;}

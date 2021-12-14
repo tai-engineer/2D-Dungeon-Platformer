@@ -7,7 +7,7 @@ using DP2D.Debugger;
 namespace DP2D
 {
     [RequireComponent(typeof(PlayerCharacter), typeof(Animator))]
-    [RequireComponent(typeof(CharacterPhysic), typeof(Animator))]
+    [RequireComponent(typeof(CharacterPhysic))]
     public class PlayerStateMachine : MonoBehaviour
     {
         StateMachine _stateMachine;

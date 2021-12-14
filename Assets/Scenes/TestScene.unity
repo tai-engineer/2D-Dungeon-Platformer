@@ -1292,9 +1292,17 @@ PrefabInstance:
       propertyPath: _input
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1948696329, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: splashBlood
+      value: 
+      objectReference: {fileID: 4385842701481086927, guid: e7eae258a06f4d64cbb5a53bc7fb0e09, type: 3}
     - target: {fileID: 5682431053872938187, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_RootOrder
       value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682431053872938187, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 5682431053872938187, guid: c4f26bb3530278042a1fb16997dde5ea, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2886,7 +2894,7 @@ Camera:
   far clip plane: 1000
   field of view: 35
   orthographic: 1
-  orthographic size: 1.84
+  orthographic size: 1.64
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2910,7 +2918,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 969553508}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.01, y: 0.1, z: -10}
+  m_LocalPosition: {x: 2.37, y: -0.81, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

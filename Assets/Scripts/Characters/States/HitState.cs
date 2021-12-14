@@ -1,7 +1,9 @@
+using UnityEngine;
 namespace DP2D
 {
     public class HitState : IState
     {
+        ParticleSystem _splashBlood = null;
         public HitState(PlayerStateMachine stateMachine)
         {
             controller = stateMachine.controller;
@@ -12,6 +14,15 @@ namespace DP2D
         {
             animator.SetBool(player.HitHash, true);
             controller.ResetMoveVector();
+            if (_splashBlood  == null)
+            {
+                GameObject obj = MonoBehaviour.Instantiate(player.splashBlood, player.bloodTransform);
+                _splashBlood = obj.GetComponent<ParticleSystem>();
+            }
+            else
+            {
+                _splashBlood.Play();
+            }
         }
 
         public override void OnExit()
