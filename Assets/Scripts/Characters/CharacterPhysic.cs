@@ -195,12 +195,6 @@ namespace DP2D
                 return hits[0].collider == null;
             return false;
         }
-        public void DisablePhysics()
-        {
-            ResetMoveVector();
-            DisableMeleeDamage();
-            _boxCollider.enabled = false;
-        }
         #endregion
         #region Movement
         public void SetHorizontalMovement(float value)

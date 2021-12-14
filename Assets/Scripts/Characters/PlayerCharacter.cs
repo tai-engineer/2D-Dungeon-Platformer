@@ -39,6 +39,7 @@ namespace DP2D
         public GameObject splashBlood;
         public Transform bloodTransform;
         public UnityEvent onDie;
+        public UnityEvent onRevive;
         #region Animation Hash
         public int SprintHash { get; private set;}
         public int MoveHash { get; private set; }
@@ -117,6 +118,7 @@ namespace DP2D
                 _currentEnergy.Value = value;
             }
         }
+        public bool IsDead { get; private set; }
         #endregion
 
         #region Unity Executions
@@ -140,8 +142,7 @@ namespace DP2D
                 _input.attackEvent   += OnAttack;
             }
 
-            Health = _startingHealth.Value;
-            Energy = _startingEnergy.Value;
+            ResetStats();
         }
         void OnDisable()
         {
@@ -176,7 +177,7 @@ namespace DP2D
             if (Health < 0)
             {
                 Health = -1;
-                Die();
+                IsDead = true;
             }
         }
         public void IncreaseEnergy(int amount)
@@ -189,15 +190,26 @@ namespace DP2D
             if (Energy < 0)
                 Energy = 0;
         }
+        void ResetStats()
+        {
+            Health = _startingHealth.Value;
+            Energy = _startingEnergy.Value;
+        }
+        public void Die()
+        {
+            onDie.Invoke();
+        }
+        public void Revive()
+        {
+            IsDead = false;
+            ResetStats();
+            onRevive.Invoke();
+        }
         #endregion
         #region Damage Methods
         public void TakeDamage(Damager damager, Damageable damageable)
         {
             DecreaseHealth(damager.damage);
-        }
-        public void Die()
-        {
-            onDie.Invoke();
         }
         #endregion
         #region Input Methods
