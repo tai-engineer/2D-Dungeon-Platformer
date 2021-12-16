@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+#if UNITY_EDITOR
 using DP2D.Debugger;
+#endif
 
 namespace DP2D
 {

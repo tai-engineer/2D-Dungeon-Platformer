@@ -20,9 +20,9 @@ public class @GameInput : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Movement"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""591c6909-3130-42d3-951e-8dc2e6a23c67"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -101,8 +101,19 @@ public class @GameInput : IInputActionCollection, IDisposable
             ],
             ""bindings"": [
                 {
+                    ""name"": """",
+                    ""id"": ""d52cdeae-efcc-47d1-a886-844d2a198178"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""GamePad"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""2D Vector"",
-                    ""id"": ""7f1a1d3b-d897-44e9-987e-86f2571157b1"",
+                    ""id"": ""d976d842-b052-4ded-85f9-b52df04920d9"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -113,8 +124,8 @@ public class @GameInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""up"",
-                    ""id"": ""971358f8-2f35-47e5-b342-3e7a6fdcf41c"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""id"": ""546c6e5e-8a2c-4a61-98e3-3465044feb76"",
+                    ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -124,8 +135,8 @@ public class @GameInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""down"",
-                    ""id"": ""eab16816-95ed-4efe-a225-6d5f56049df5"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""id"": ""802b2324-7349-477e-b397-f4c001f3814b"",
+                    ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -135,7 +146,7 @@ public class @GameInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""left"",
-                    ""id"": ""fffd2263-8d39-45f0-9b8a-e3336f40b187"",
+                    ""id"": ""e5d2414c-1009-4859-beb7-9f5cfbd5c6b1"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -146,7 +157,7 @@ public class @GameInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""840caca5-7f1c-4fb2-beb6-fd5914cd1006"",
+                    ""id"": ""611407a8-ffbd-409c-a0fc-0f0f71d8b602"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -170,6 +181,17 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""57540360-59d0-4ff5-8fd6-a2d739975719"",
                     ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4c0de15-566c-4aea-8a81-a21b60d6ae23"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -261,6 +283,11 @@ public class @GameInput : IInputActionCollection, IDisposable
         {
             ""name"": ""Keyboard"",
             ""bindingGroup"": ""Keyboard"",
+            ""devices"": []
+        },
+        {
+            ""name"": ""GamePad"",
+            ""bindingGroup"": ""GamePad"",
             ""devices"": []
         }
     ]
@@ -434,6 +461,15 @@ public class @GameInput : IInputActionCollection, IDisposable
         {
             if (m_KeyboardSchemeIndex == -1) m_KeyboardSchemeIndex = asset.FindControlSchemeIndex("Keyboard");
             return asset.controlSchemes[m_KeyboardSchemeIndex];
+        }
+    }
+    private int m_GamePadSchemeIndex = -1;
+    public InputControlScheme GamePadScheme
+    {
+        get
+        {
+            if (m_GamePadSchemeIndex == -1) m_GamePadSchemeIndex = asset.FindControlSchemeIndex("GamePad");
+            return asset.controlSchemes[m_GamePadSchemeIndex];
         }
     }
     public interface IPlayerInputActions

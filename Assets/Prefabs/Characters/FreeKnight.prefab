@@ -231,8 +231,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stateMachineDebugger:
-    _debugTransition: 1
-    _appendConditionsInfo: 1
+    _debugTransition: 0
+    _appendConditionsInfo: 0
     _currentState: 
   controller: {fileID: 0}
   animator: {fileID: 0}
@@ -274,6 +274,9 @@ MonoBehaviour:
   splashBlood: {fileID: 4385842701481086927, guid: e7eae258a06f4d64cbb5a53bc7fb0e09, type: 3}
   bloodTransform: {fileID: 7919268256743980291}
   onDie:
+    m_PersistentCalls:
+      m_Calls: []
+  onRevive:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &1948696324

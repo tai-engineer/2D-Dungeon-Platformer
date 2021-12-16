@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System;
+#if UNITY_EDITOR
 using DP2D.Debugger;
+#endif
 namespace DP2D
 {
     public class StateMachine
