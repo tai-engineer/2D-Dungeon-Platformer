@@ -10,6 +10,11 @@ namespace DP2D
     public class LevelGenerator : MonoBehaviour
     {
         [SerializeField] RuleTile _tile;
+
+        /// <summary>
+        /// Rule tile does not apply on multiple tilemaps.
+        /// Each room has to get tilemap from generator for modifications
+        /// </summary>
         [SerializeField] Tilemap _tileMap;
         [SerializeField] Room _roomPreb;
 
