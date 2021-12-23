@@ -17,15 +17,17 @@ namespace DP2D
 
         Tilemap _tileMap;
         RuleTile _tile;
-        int _seed;
-        int _scale;
+        [SerializeField] int _seed;
+        [SerializeField] int _scale;
         public int width { get => _width; }
         public int height { get => _height; }
 
         RoomData _data;
+        int _size;
         void Awake()
         {
             _data = new RoomData(_width, _height);
+            _size = _width * height;
         }
 
         public void Initialize(int seed, int scale)
@@ -42,28 +44,19 @@ namespace DP2D
         {
             int groundMaxHeight = 1;
             int ceilingMaxHeight = 1;
-            int ceilingAllowHeight;
 
             for (int x = 0; x < _width; x++)
             {
-                if ((x % 2) == 0)
-                {
-                    groundMaxHeight = GetPerlin1DHeight(
+                groundMaxHeight = GetPerlin1DHeight(
                         x, _seed,
                         _data.groundHeightMin, _data.groundHeightMax);
-                }
-                for (int y = 0; y < _height; y++)
+                ceilingMaxHeight = GetPerlin1DHeight(
+                            _seed, _width - x,
+                            _data.ceilingHeightMin, _data.ceilingHeightMax);
+                for (int y = 0; y < _height / 2; y++)
                 {
                     SetGroundTiles(x, y, groundMaxHeight, tileOffset);
-
-                    ceilingAllowHeight = _height - groundMaxHeight - _data.emptyHeight;
-                    if (y == ceilingAllowHeight && (x % 2) == 0)
-                    {
-                        ceilingMaxHeight = GetPerlin1DHeight(
-                            _seed, y,
-                            _data.ceilingHeightMin, _data.ceilingHeightMax);
-                    }
-                    SetCeilingTiles(x, y, ceilingMaxHeight, tileOffset);
+                    SetCeilingTiles(x, _height - y, ceilingMaxHeight, tileOffset);
                 }
             }
         }
@@ -83,8 +76,8 @@ namespace DP2D
         }
         int GetPerlin1DHeight(int x, int y, int min, int max)
         {
-            float xCoord = (float)x / _width * _scale;
-            float yCoord = (float)y / _height * _scale;
+            float xCoord = (float)x / _size * _scale;
+            float yCoord = (float)y / _size * _scale;
             float noise = Mathf.PerlinNoise(xCoord, yCoord);
             float yRange = noise * max;
             yRange = Mathf.Clamp(yRange, min, max);
