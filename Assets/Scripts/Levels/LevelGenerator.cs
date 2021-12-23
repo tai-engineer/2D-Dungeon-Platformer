@@ -2,80 +2,68 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 namespace DP2D
 {
     public class LevelGenerator : MonoBehaviour
     {
         [SerializeField] RuleTile _tile;
         [SerializeField] Tilemap _tileMap;
-        [SerializeField] int _scale;
-        [SerializeField] int _seed;
-        int _roomWidth, _roomHeight;
+        [SerializeField] Room _roomPreb;
+
+        [SerializeField] int _levelWidth;
+        [SerializeField] int _levelHeight;
+
+        [Tooltip("Random number starting from 1 to set value." +
+            "This value will be used to scale perlin noise")]
+        [SerializeField, Min(1)] int _scale;
+        [Tooltip("Random number starting from 0 to set value." +
+            "This value will be used for x and y samples of perlin noise")]
+        [SerializeField, Min(0)] int _seed;
+        List<Room> _rooms;
         void Awake()
         {
-            _roomWidth = RoomData.width;
-            _roomHeight = RoomData.height;
+            _rooms = new List<Room>();
         }
-
-        void Update()
+        void Start()
         {
             _tileMap.ClearAllTiles();
             GeneratateLevel();
         }
         void GeneratateLevel()
         {
-            SetTiles();
-        }
-
-        float GetPerlin1DHeight(int x, int y, int min, int max)
-        {
-            float xCoord = (float)x / _roomWidth * _scale;
-            float yCoord = (float)y / _roomHeight * _scale;
-            float noise = Mathf.PerlinNoise(xCoord, yCoord);
-            float yRange = noise * max;
-            yRange = Mathf.Clamp(yRange, min, max);
-            return Mathf.RoundToInt(yRange);
-        }
-
-        void SetTiles()
-        {
-            int groundMaxHeight = 0;
-            int ceilingMaxHeight = 0;
-            int ceilingAllowHeight;
-            for (int x = 0; x < _roomWidth;x++)
+            for (int i = 0, y = 0; y < _levelHeight; y++)
             {
-                if ((x % 2) == 0)
+                for (int x = 0; x < _levelWidth; x++, i++)
                 {
-                    groundMaxHeight = (int)GetPerlin1DHeight(x, _seed, RoomData.groundHeightMin, RoomData.groundHeightMax);
-                }
-                for (int y = 0; y < _roomHeight;y++)
-                {
-                    SetGroundTiles(x, y, groundMaxHeight);
-
-                    ceilingAllowHeight = _roomHeight - groundMaxHeight - RoomData.emptyHeight;
-                    if (ceilingAllowHeight <= 0)
-                        Debug.LogError("Invalid value");
-                    if (y == ceilingAllowHeight && (x % 2) == 0)
-                    {
-                        ceilingMaxHeight = (int)GetPerlin1DHeight(_seed, y, RoomData.ceilingHeightMin, RoomData.ceilingHeightMax);
-                    }
-                    SetCeilingTiles(x, y, ceilingMaxHeight);
+                    _rooms.Add(CreateRoom(x, y, i));
+                    _rooms[i].Build(new Vector2Int(x * _rooms[i].width, y * _rooms[i].height));
                 }
             }
         }
-        void SetGroundTiles(int x, int y, int height)
+        Room CreateRoom(int x, int y, int i)
         {
-            if (y < height)
-            {
-                _tileMap.SetTile(new Vector3Int(x, y, 0), _tile);
-            }
+            int seed = Random.Range(0, _seed);
+            int scale = Random.Range(1, _scale);
+
+            Room room = Instantiate(_roomPreb, transform);
+            room.name = "Room_" + i;
+            room.transform.localPosition = new Vector2(x * room.width, y * room.height);
+            room.Initialize(seed, scale);
+            room.SetTile(_tile, _tileMap);
+            return room;
         }
-        void SetCeilingTiles(int x, int y, int height)
+
+#if UNITY_EDITOR
+        [ContextMenu("Re-Generate")]
+        public void ReGenerate()
         {
-            if (y >= (_roomHeight - height))
-            {
-                _tileMap.SetTile(new Vector3Int(x, y, 1), _tile);
-            }
+            _tileMap.ClearAllTiles();
+            _rooms.Clear();
+            GeneratateLevel();
         }
+#endif
     }
 }
