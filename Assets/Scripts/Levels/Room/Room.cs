@@ -7,32 +7,23 @@ namespace DP2D
 {
     public class Room: MonoBehaviour
     {
-        [SerializeField, Min(10)] int _width;
-        [SerializeField, Min(10)] int _height;
+        internal int width;
+        internal int height;
+        internal RoomData data;
 
         Tilemap _tileMap;
         RuleTile _tile;
-        [SerializeField] int _seed;
-        [SerializeField] int _scale;
-        internal int width { get => _width; }
-        internal int height { get => _height; }
 
-        RoomData _data;
+        int _seed;
+        int _scale;
         int _size;
 
-        RoomExit _leftExit;
         int _groundMaxHeight = 1;
         int _ceilingMaxHeight = 1;
-        void Awake()
-        {
-            _data = new RoomData(_width, _height);
-            _size = _width * height;
-
-            _seed = Random.Range(0, LevelGenerator.Instance.seed);
-            _scale = Random.Range(1, LevelGenerator.Instance.scale);
-
-            _leftExit = new RoomExit(new Vector2Int(0, _height/2), this);
-        }
+        RoomExit _leftExit = null;
+        RoomExit _topExit = null;
+        RoomExit _rightExit = null;
+        RoomExit _bottomExit = null;
         internal void SetTile(RuleTile tile, Tilemap tileMap)
         {
             _tile = tile;
@@ -40,28 +31,36 @@ namespace DP2D
         }
         internal void Build(Vector2Int tileOffset)
         {
-
-            for (int x = 0; x < _width; x++)
+            _seed = Random.Range(0, LevelGenerator.Instance.seed);
+            _scale = Random.Range(1, LevelGenerator.Instance.scale);
+            _leftExit = new RoomExit(ExitDirection.Left, data);
+            _rightExit = new RoomExit(ExitDirection.Right, data);
+            for (int x = 0; x < width; x++)
             {
                 _groundMaxHeight = GetPerlin1DHeight(
                         x, _seed,
-                        _data.groundHeightMin, _data.groundHeightMax);
+                        data.groundHeightMin, data.groundHeightMax);
                 _ceilingMaxHeight = GetPerlin1DHeight(
-                            _seed, _width - x,
-                            _data.ceilingHeightMin, _data.ceilingHeightMax);
+                            _seed, width - x,
+                            data.ceilingHeightMin, data.ceilingHeightMax);
                 
-                for (int y = 0; y < _height / 2; y++)
+                for (int y = 0; y < height / 2; y++)
                 {
                     SetGroundTiles(x, y, tileOffset);
-                    SetCeilingTiles(x, _height - y - 1, tileOffset);
+                    SetCeilingTiles(x, height - y - 1, tileOffset);
                 }
             }
         }
         void SetGroundTiles(int x, int y, Vector2Int offset)
         {
-            if (x == 0 || x == _width - 1)
+            if (x == 0 || x == width - 1)
             {
-                _groundMaxHeight = _height / 2;
+                if (x == 0 && _leftExit != null)
+                    _groundMaxHeight = height / 2 + _leftExit.yMin;
+                else if(x == width-1 && _rightExit != null)
+                    _groundMaxHeight = height / 2 + _rightExit.yMin;
+                else
+                    _groundMaxHeight = height / 2;
             }
             if (y < _groundMaxHeight)
             {
@@ -70,19 +69,25 @@ namespace DP2D
         }
         void SetCeilingTiles(int x, int y, Vector2Int offset)
         {
-            if (x == 0 || x == _width - 1)
+            if (x == 0 || x == width - 1)
             {
-                _ceilingMaxHeight = _height - _groundMaxHeight;
+                if (x == 0 && _leftExit != null)
+                    _ceilingMaxHeight = height / 2 - _leftExit.yMax;
+                else if (x == width - 1 && _rightExit != null)
+                    _ceilingMaxHeight = height / 2 - _rightExit.yMax;
+                else
+                    _ceilingMaxHeight = height / 2;
+
             }
-            if (y >= (_height - _ceilingMaxHeight))
+            if (y >= height - _ceilingMaxHeight)
             {
                 _tileMap.SetTile(new Vector3Int(x + offset.x, y + offset.y, 0), _tile);
             }
         }
         int GetPerlin1DHeight(int x, int y, int min, int max)
         {
-            float xCoord = (float)x / _size * _scale;
-            float yCoord = (float)y / _size * _scale;
+            float xCoord = (float)x / width * height * _scale;
+            float yCoord = (float)y / width * height * _scale;
             float noise = Mathf.PerlinNoise(xCoord, yCoord);
             float yRange = noise * max;
             yRange = Mathf.Clamp(yRange, min, max);

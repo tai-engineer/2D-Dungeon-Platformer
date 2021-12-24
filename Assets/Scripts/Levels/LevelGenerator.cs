@@ -20,18 +20,21 @@ namespace DP2D
 
         [SerializeField] int _levelWidth;
         [SerializeField] int _levelHeight;
-
+        [SerializeField, Min(10)] int _roomWidth;
+        [SerializeField, Min(10)] int _roomHeight;
         [Tooltip("Random number starting from 1 to set value." +
             "This value will be used to scale perlin noise")]
         [Min(1)] public int scale;
         [Tooltip("Random number starting from 0 to set value." +
             "This value will be used for x and y samples of perlin noise")]
         [Min(0)] public int seed;
-        List<Room> _rooms;
+        Room[] _rooms;
+        RoomData _roomData;
         protected override void Awake()
         {
             base.Awake();
-            _rooms = new List<Room>();
+            _rooms = new Room[_levelWidth * _levelHeight];
+            _roomData = new RoomData(_roomWidth, _roomHeight);
         }
         void Start()
         {
@@ -42,20 +45,22 @@ namespace DP2D
         {
             for (int i = 0, y = 0; y < _levelHeight; y++)
             {
-                for (int x = 0; x < _levelWidth; x++, i++)
+                for (int x = 0; x < _levelWidth; x++)
                 {
-                    _rooms.Add(CreateRoom(x, y, i));
-                    _rooms[i].Build(new Vector2Int(x * _rooms[i].width, y * _rooms[i].height));
+                    CreateRoom(x, y, i++);
                 }
             }
         }
-        Room CreateRoom(int x, int y, int i)
+        void CreateRoom(int x, int y, int i)
         {
-            Room room = Instantiate(_roomPreb, transform);
+            Room room = _rooms[i] = Instantiate(_roomPreb, transform);
             room.name = "Room_" + i;
-            room.transform.localPosition = new Vector2(x * room.width, y * room.height);
+            room.transform.localPosition = new Vector2(x * _roomWidth, y * _roomHeight);
+            room.width = _roomWidth;
+            room.height = _roomHeight;
+            room.data = _roomData;
             room.SetTile(_tile, _tileMap);
-            return room;
+            room.Build(new Vector2Int(x * _roomWidth, y * _roomHeight));
         }
 
 #if UNITY_EDITOR
@@ -63,7 +68,6 @@ namespace DP2D
         public void ReGenerate()
         {
             _tileMap.ClearAllTiles();
-            _rooms.Clear();
             GeneratateLevel();
         }
 #endif

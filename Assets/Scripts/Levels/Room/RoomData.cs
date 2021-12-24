@@ -6,51 +6,85 @@ namespace DP2D
 {
     internal class RoomData
     {
-        int _width;
-        int _height;
+        internal int width;
+        internal int height;
 
         internal readonly int ceilingHeightMin;
         internal readonly int groundHeightMin;
-        internal readonly int verticalExitWidthMin;
-        internal readonly int horizontalExitWidthMin;
         internal readonly int ceilingHeightMax;
+        internal readonly int groundHeightMax;
+        internal readonly int groundWidthMin;
+        internal readonly int ceilingWidthMin;
         
         internal readonly int emptyHeight;
-        internal readonly int groundHeightMax;
-        internal readonly int verticalExitWidthMax;
-        internal readonly int horizontalExitWidthMax;
         internal RoomData(int width, int height)
         {
-            _width = width;
-            _height = height;
+            this.width = width;
+            this.height = height;
 
             ceilingHeightMin = 2;
             groundHeightMin = 2;
-            verticalExitWidthMin = 4;
-            horizontalExitWidthMin = 4;
             ceilingHeightMax = 4;
+            groundWidthMin = 2;
+            ceilingWidthMin = 2;
 
-            emptyHeight = _height / 3;
+            emptyHeight = this.height / 3;
 
-            groundHeightMax = _height - emptyHeight - ceilingHeightMax;
-
-            verticalExitWidthMax = Mathf.RoundToInt(_width * 0.25f); // 25% of width
-            horizontalExitWidthMax = Mathf.RoundToInt(_height * 0.33f); // 30% of height
+            groundHeightMax = this.height - emptyHeight - ceilingHeightMax;
         }
     }
-    internal struct RoomExit
+    internal enum ExitDirection { Left, Top, Right, Bottom }
+    internal class RoomExit
     {
-        Room _room;
-        Vector2Int _center;
+        ExitDirection _direction;
+        RoomData _roomData;
 
-        internal RoomExit(Vector2Int center, Room room)
+        int _xMin = 0;
+        int _xMax = 0;
+        int _yMin = 0;
+        int _yMax = 0;
+        internal RoomExit(ExitDirection direction, RoomData roomData)
         {
-            _center = center;
-            _room = room;
+            _direction = direction;            
+            _roomData = roomData;
+
+            Init();
         }
-        internal int xMin => Random.Range(0, _center.x - 1);
-        internal int xMax => Random.Range(_center.x + 1, _room.width);
-        internal int yMin => Random.Range(0, _center.y - 1);
-        internal int yMax => Random.Range(_center.x + 1, _room.height);
+
+        void Init()
+        {
+            switch (_direction)
+            {
+                case ExitDirection.Left:
+                    _xMin = 0;
+                    _xMax = 0;
+                    _yMin = Random.Range(2, -_roomData.height / 2 + _roomData.groundHeightMin);
+                    _yMax = Random.Range(2, _roomData.height / 2 - _roomData.groundHeightMin);
+                    break;
+
+                case ExitDirection.Top:
+                    _xMin = Random.Range(_roomData.ceilingWidthMin, _roomData.width / 2);
+                    _xMax = Random.Range(_roomData.width / 2, _roomData.width - _roomData.ceilingWidthMin);
+                    _yMin = _roomData.height;
+                    _yMax = _roomData.height;
+                    break;
+                case ExitDirection.Right:
+                    _xMin = _roomData.width;
+                    _xMax = _roomData.width;
+                    _yMin = Random.Range(2, -_roomData.height / 2 + _roomData.groundHeightMin);
+                    _yMax = Random.Range(2, _roomData.height / 2 - _roomData.groundHeightMin);
+                    break;
+                case ExitDirection.Bottom:
+                    _xMin = Random.Range(_roomData.groundWidthMin, _roomData.width / 2);
+                    _xMax = Random.Range(_roomData.width / 2, _roomData.width - _roomData.groundWidthMin);
+                    _yMin = 0;
+                    _yMax = 0;
+                    break;
+            }
+        }
+        internal int xMin => _xMin;
+        internal int xMax => _xMax;
+        internal int yMin => _yMin;
+        internal int yMax => _yMax;
     }
 }
