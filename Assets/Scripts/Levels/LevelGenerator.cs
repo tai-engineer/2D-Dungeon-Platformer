@@ -1,13 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using Common.Singleton;
 namespace DP2D
 {
-    public class LevelGenerator : MonoBehaviour
+    public class LevelGenerator : Singleton<LevelGenerator>
     {
         [SerializeField] RuleTile _tile;
 
@@ -23,13 +23,14 @@ namespace DP2D
 
         [Tooltip("Random number starting from 1 to set value." +
             "This value will be used to scale perlin noise")]
-        [SerializeField, Min(1)] int _scale;
+        [Min(1)] public int scale;
         [Tooltip("Random number starting from 0 to set value." +
             "This value will be used for x and y samples of perlin noise")]
-        [SerializeField, Min(0)] int _seed;
+        [Min(0)] public int seed;
         List<Room> _rooms;
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _rooms = new List<Room>();
         }
         void Start()
@@ -50,13 +51,9 @@ namespace DP2D
         }
         Room CreateRoom(int x, int y, int i)
         {
-            int seed = Random.Range(0, _seed);
-            int scale = Random.Range(1, _scale);
-
             Room room = Instantiate(_roomPreb, transform);
             room.name = "Room_" + i;
             room.transform.localPosition = new Vector2(x * room.width, y * room.height);
-            room.Initialize(seed, scale);
             room.SetTile(_tile, _tileMap);
             return room;
         }
