@@ -53,10 +53,15 @@ namespace DP2D
                 ceilingMaxHeight = GetPerlin1DHeight(
                             _seed, _width - x,
                             _data.ceilingHeightMin, _data.ceilingHeightMax);
+                if (x == 0 || x == _width - 1)
+                {
+                    groundMaxHeight = _height / 2;
+                    ceilingMaxHeight = _height - groundMaxHeight;
+                }
                 for (int y = 0; y < _height / 2; y++)
                 {
                     SetGroundTiles(x, y, groundMaxHeight, tileOffset);
-                    SetCeilingTiles(x, _height - y, ceilingMaxHeight, tileOffset);
+                    SetCeilingTiles(x, _height - y - 1, ceilingMaxHeight, tileOffset);
                 }
             }
         }
