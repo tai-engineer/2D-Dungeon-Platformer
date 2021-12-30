@@ -39,9 +39,10 @@ namespace DP2D
         void Start()
         {
             _tileMap.ClearAllTiles();
-            GeneratateLevel();
+            InitializeRooms();
+            BuildRooms();
         }
-        void GeneratateLevel()
+        void InitializeRooms()
         {
             for (int i = 0, y = 0; y < _levelHeight; y++)
             {
@@ -49,6 +50,13 @@ namespace DP2D
                 {
                     CreateRoom(x, y, i++);
                 }
+            }
+        }
+        void BuildRooms()
+        {
+            foreach(Room room in _rooms)
+            {
+                room.Build();
             }
         }
         void CreateRoom(int x, int y, int i)
@@ -59,8 +67,26 @@ namespace DP2D
             room.width = _roomWidth;
             room.height = _roomHeight;
             room.data = _roomData;
-            room.SetTile(_tile, _tileMap);
-            room.Build(new Vector2Int(x * _roomWidth, y * _roomHeight));
+            room.offset = new Vector2Int(x * _roomWidth, y * _roomHeight);
+            room.tile = _tile;
+            room.tileMap = _tileMap;
+
+            SetRoomExits(x, y, i);
+        }
+        void SetRoomExits(int x, int y, int i)
+        {
+            if (x > 0)
+            {
+                _rooms[i].leftExit = _rooms[i - 1].rightExit;
+                if (x < _levelWidth - 1)
+                {
+                    _rooms[i].rightExit = new RoomExit(ExitDirection.LeftRight, _roomData);
+                }
+            }
+            else
+            {
+                _rooms[i].rightExit = new RoomExit(ExitDirection.LeftRight, _roomData);
+            }
         }
 
 #if UNITY_EDITOR
@@ -68,7 +94,8 @@ namespace DP2D
         public void ReGenerate()
         {
             _tileMap.ClearAllTiles();
-            GeneratateLevel();
+            InitializeRooms();
+            BuildRooms();
         }
 #endif
     }

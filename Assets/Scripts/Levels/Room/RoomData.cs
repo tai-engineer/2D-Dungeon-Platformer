@@ -4,20 +4,19 @@ using UnityEngine;
 
 namespace DP2D
 {
-    internal class RoomData
+    public class RoomData
     {
-        internal int width;
-        internal int height;
+        public int width;
+        public int height;
 
-        internal readonly int ceilingHeightMin;
-        internal readonly int groundHeightMin;
-        internal readonly int ceilingHeightMax;
-        internal readonly int groundHeightMax;
-        internal readonly int groundWidthMin;
-        internal readonly int ceilingWidthMin;
+        public readonly int ceilingHeightMin;
+        public readonly int groundHeightMin;
+        public readonly int ceilingHeightMax;
+        public readonly int groundHeightMax;
+        public readonly int groundWidthMin;
         
-        internal readonly int emptyHeight;
-        internal RoomData(int width, int height)
+        public readonly int emptyHeight;
+        public RoomData(int width, int height)
         {
             this.width = width;
             this.height = height;
@@ -26,65 +25,55 @@ namespace DP2D
             groundHeightMin = 2;
             ceilingHeightMax = 4;
             groundWidthMin = 2;
-            ceilingWidthMin = 2;
 
             emptyHeight = this.height / 3;
 
             groundHeightMax = this.height - emptyHeight - ceilingHeightMax;
         }
     }
-    internal enum ExitDirection { Left, Top, Right, Bottom }
-    internal class RoomExit
+    public enum ExitDirection { LeftRight, TopBottom}
+
+    [System.Serializable]
+    public class RoomExit
     {
-        ExitDirection _direction;
+        public ExitDirection direction;
         RoomData _roomData;
 
-        int _xMin = 0;
-        int _xMax = 0;
-        int _yMin = 0;
-        int _yMax = 0;
-        internal RoomExit(ExitDirection direction, RoomData roomData)
+        [SerializeField] int _xMin;
+        [SerializeField] int _xMax;
+        [SerializeField] int _yMin;
+        [SerializeField] int _yMax;
+        public RoomExit(ExitDirection direction, RoomData roomData)
         {
-            _direction = direction;            
+            this.direction = direction;            
             _roomData = roomData;
-
+            center = new Vector2Int(_roomData.width/2, _roomData.height/2);
             Init();
         }
 
         void Init()
         {
-            switch (_direction)
+            switch (direction)
             {
-                case ExitDirection.Left:
+                case ExitDirection.LeftRight:
                     _xMin = 0;
                     _xMax = 0;
-                    _yMin = Random.Range(2, -_roomData.height / 2 + _roomData.groundHeightMin);
-                    _yMax = Random.Range(2, _roomData.height / 2 - _roomData.groundHeightMin);
+                    _yMin = Random.Range(2, (_roomData.height / 2) - _roomData.groundHeightMin);
+                    _yMax = Random.Range(2, (_roomData.height / 2) - _roomData.ceilingHeightMin);
                     break;
 
-                case ExitDirection.Top:
-                    _xMin = Random.Range(_roomData.ceilingWidthMin, _roomData.width / 2);
-                    _xMax = Random.Range(_roomData.width / 2, _roomData.width - _roomData.ceilingWidthMin);
-                    _yMin = _roomData.height;
-                    _yMax = _roomData.height;
-                    break;
-                case ExitDirection.Right:
-                    _xMin = _roomData.width;
-                    _xMax = _roomData.width;
-                    _yMin = Random.Range(2, -_roomData.height / 2 + _roomData.groundHeightMin);
-                    _yMax = Random.Range(2, _roomData.height / 2 - _roomData.groundHeightMin);
-                    break;
-                case ExitDirection.Bottom:
-                    _xMin = Random.Range(_roomData.groundWidthMin, _roomData.width / 2);
-                    _xMax = Random.Range(_roomData.width / 2, _roomData.width - _roomData.groundWidthMin);
+                case ExitDirection.TopBottom:
+                    _xMin = Random.Range(2, _roomData.width / 2 - _roomData.groundWidthMin);
+                    _xMax = Random.Range(2, _roomData.width / 2 - _roomData.groundWidthMin);
                     _yMin = 0;
                     _yMax = 0;
                     break;
             }
         }
-        internal int xMin => _xMin;
-        internal int xMax => _xMax;
-        internal int yMin => _yMin;
-        internal int yMax => _yMax;
+        public int xMin => _xMin;
+        public int xMax => _xMax;
+        public int yMin => _yMin;
+        public int yMax => _yMax;
+        public Vector2Int center { get; private set; }
     }
 }

@@ -157,8 +157,10 @@ MonoBehaviour:
   _roomPreb: {fileID: 953656126759064289, guid: fd9603befacb19b4380909bd418e0f9c, type: 3}
   _levelWidth: 3
   _levelHeight: 3
-  _scale: 120
-  _seed: 5
+  _roomWidth: 32
+  _roomHeight: 18
+  scale: 120
+  seed: 0
 --- !u!4 &589706581
 Transform:
   m_ObjectHideFlags: 0
