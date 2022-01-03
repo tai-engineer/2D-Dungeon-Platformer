@@ -24,7 +24,7 @@ namespace DP2D
             ceilingHeightMin = 2;
             groundHeightMin = 2;
             ceilingHeightMax = 4;
-            groundWidthMin = 2;
+            groundWidthMin = 6;
 
             emptyHeight = this.height / 3;
 

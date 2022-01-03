@@ -550,12 +550,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b8987fa7986fcf48bf551c54c49bdaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tile: {fileID: 11400000, guid: 24a435987db04b240ac29ba12e581b44, type: 2}
-  _tileMap: {fileID: 0}
-  _width: 32
-  _height: 18
-  _scale: 20
-  _seed: 0
+  width: 0
+  height: 0
+  offset: {x: 0, y: 0}
+  tileMap: {fileID: 0}
+  tile: {fileID: 0}
+  _roomCanvas: {fileID: 0}
+  _tileLabelPf: {fileID: 0}
+  _leftExit:
+    direction: 0
+    _xMin: 0
+    _xMax: 0
+    _yMin: 0
+    _yMax: 0
+  _rightExit:
+    direction: 0
+    _xMin: 0
+    _xMax: 0
+    _yMin: 0
+    _yMax: 0
+  _topExit:
+    direction: 0
+    _xMin: 0
+    _xMax: 0
+    _yMin: 0
+    _yMax: 0
+  _bottomExit:
+    direction: 0
+    _xMin: 0
+    _xMax: 0
+    _yMin: 0
+    _yMax: 0
 --- !u!1 &953656126769797725
 GameObject:
   m_ObjectHideFlags: 0

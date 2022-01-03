@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-
 namespace DP2D
 {
     [SelectionBase]
@@ -18,7 +17,6 @@ namespace DP2D
 
         int _seed;
         int _scale;
-        int _size;
 
         int _groundMaxHeight = 1;
         int _ceilingMaxHeight = 1;
@@ -31,6 +29,7 @@ namespace DP2D
         public RoomExit rightExit { get => _rightExit; set => _rightExit = value; }
         public RoomExit topExit { get => _topExit; set => _topExit = value; }
         public RoomExit bottomExit { get => _bottomExit; set => _bottomExit = value; }
+
         public void Build()
         {
             _seed = Random.Range(0, LevelGenerator.Instance.seed);
@@ -49,7 +48,8 @@ namespace DP2D
                 {
                     SetGroundTiles(x, y, offset);
                     SetCeilingTiles(x, y, offset);
-                    SetRoomExitTiles(x, y,offset);
+                    SetLRExitTiles(x, y,offset);
+                    SetTBExitTiles(x, y, offset);
                 }
             }
         }
@@ -75,7 +75,7 @@ namespace DP2D
                 tileMap.SetTile(new Vector3Int(x + offset.x, y + offset.y, 0), tile);
             }
         }
-        void SetRoomExitTiles(int x, int y, Vector2Int offset)
+        void SetLRExitTiles(int x, int y, Vector2Int offset)
         {
             if (y <= data.groundHeightMin)
                 return;
@@ -93,6 +93,25 @@ namespace DP2D
                     tileMap.SetTile(new Vector3Int(x + offset.x, y + offset.y, 0), null);
                 }
             }
+        }
+        void SetTBExitTiles(int x, int y, Vector2Int offset)
+        {
+            if (y < _groundMaxHeight)
+            {
+                if (_bottomExit.xMin == 0 && _bottomExit.xMax == 0)
+                    return;
+                if (x < (_bottomExit.center.x - _bottomExit.xMin) || x > (_bottomExit.center.x + _bottomExit.xMax))
+                    return; 
+            }
+            else if (y > height - 1 - _ceilingMaxHeight)
+            {
+                if (_topExit.xMin == 0 && _topExit.xMax == 0)
+                    return;
+                if (x < (_topExit.center.x - _topExit.xMin) || x > (_topExit.center.x + _topExit.xMax))
+                    return;
+            }
+
+            tileMap.SetTile(new Vector3Int(x + offset.x, y + offset.y, 0), null);
         }
         int GetPerlin1DHeight(int x, int y, int min, int max)
         {

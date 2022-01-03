@@ -87,6 +87,19 @@ namespace DP2D
             {
                 _rooms[i].rightExit = new RoomExit(ExitDirection.LeftRight, _roomData);
             }
+
+            if(y > 0)
+            {
+                _rooms[i].bottomExit = _rooms[i - _levelWidth].topExit;
+                if( y < _levelHeight - 1)
+                {
+                    _rooms[i].topExit = new RoomExit(ExitDirection.TopBottom, _roomData);
+                }
+            }
+            else
+            {
+                _rooms[i].topExit = new RoomExit(ExitDirection.TopBottom, _roomData);
+            }
         }
 
 #if UNITY_EDITOR

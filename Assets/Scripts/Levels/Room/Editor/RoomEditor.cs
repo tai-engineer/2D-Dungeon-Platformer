@@ -11,6 +11,7 @@ namespace DP2D
         SerializedProperty _rightExitProp;
         SerializedProperty _topExitProp;
         SerializedProperty _bottomExitProp;
+
         void OnEnable()
         {
             _leftExitProp = serializedObject.FindProperty("_leftExit");
