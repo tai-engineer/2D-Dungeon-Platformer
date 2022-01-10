@@ -24,10 +24,10 @@ namespace DP2D
         [SerializeField, Min(10)] int _roomHeight;
         [Tooltip("Random number starting from 1 to set value." +
             "This value will be used to scale perlin noise")]
-        [Min(1)] public int scale;
+        public int perlingScale;
         [Tooltip("Random number starting from 0 to set value." +
             "This value will be used for x and y samples of perlin noise")]
-        [Min(0)] public int seed;
+        public int perlingOffset;
         Room[] _rooms;
         RoomData _roomData;
         protected override void Awake()

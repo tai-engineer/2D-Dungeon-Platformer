@@ -32,16 +32,16 @@ namespace DP2D
 
         public void Build()
         {
-            _seed = Random.Range(0, LevelGenerator.Instance.seed);
-            _scale = Random.Range(1, LevelGenerator.Instance.scale);
+            _seed = Random.Range(0, LevelGenerator.Instance.perlingOffset);
+            _scale = Random.Range(0, LevelGenerator.Instance.perlingScale);
 
             for (int x = 0; x < width; x++)
             {
-                _groundMaxHeight = GetPerlin1DHeight(
-                        x, _seed,
+                _groundMaxHeight = GetPerlinHeight(
+                        x, 0,
                         data.groundHeightMin, data.groundHeightMax);
-                _ceilingMaxHeight = GetPerlin1DHeight(
-                            _seed, width - x,
+                _ceilingMaxHeight = GetPerlinHeight(
+                            x, 1,
                             data.ceilingHeightMin, data.ceilingHeightMax);
                 
                 for (int y = 0; y < height; y++)
@@ -113,10 +113,10 @@ namespace DP2D
 
             tileMap.SetTile(new Vector3Int(x + offset.x, y + offset.y, 0), null);
         }
-        int GetPerlin1DHeight(int x, int y, int min, int max)
+        int GetPerlinHeight(int x, int y, int min, int max)
         {
-            float xCoord = (float)x / width * height * _scale;
-            float yCoord = (float)y / width * height * _scale;
+            float xCoord = ((float)x / width) * _scale + _seed;
+            float yCoord = ((float)y / height) * _scale + _seed;
             float noise = Mathf.PerlinNoise(xCoord, yCoord);
             float yRange = noise * max;
             yRange = Mathf.Clamp(yRange, min, max);
