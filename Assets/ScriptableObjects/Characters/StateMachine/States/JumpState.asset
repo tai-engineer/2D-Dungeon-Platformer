@@ -12,7 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9c9d4f4b70405b488afbd75b8b9826e, type: 3}
   m_Name: JumpState
   m_EditorClassIdentifier: 
-  enterActions: []
-  loopActions: []
-  exitActions: []
-  transitions: []
+  enterActions:
+  - {fileID: 11400000, guid: fd4d98270aed522439378a418abd9c3c, type: 2}
+  - {fileID: 0}
+  loopActions:
+  - {fileID: 11400000, guid: d721ee10079d6004e8d8f18e17b5c9e6, type: 2}
+  - {fileID: 11400000, guid: 31aed1b173d93ad43821a38261ae4aae, type: 2}
+  - {fileID: 11400000, guid: 9c3224ca4d2193a4c837a69de733de14, type: 2}
+  exitActions:
+  - {fileID: 11400000, guid: 18f7a2094dd61ff48929431120adb752, type: 2}
+  transitions:
+  - decision: {fileID: 0}
+    trueState: {fileID: 0}
+    falseState: {fileID: 0}
