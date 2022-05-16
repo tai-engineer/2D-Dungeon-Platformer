@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9c9d4f4b70405b488afbd75b8b9826e, type: 3}
   m_Name: LandState
   m_EditorClassIdentifier: 
-  enterActions: []
+  enterActions:
+  - {fileID: 11400000, guid: 7d9d45be55a8eaa4094a6889637daec8, type: 2}
+  - {fileID: 11400000, guid: dddc99cec0b66034191780c8a1c668ce, type: 2}
+  - {fileID: 11400000, guid: 930abef954795f340a541970545c60da, type: 2}
   loopActions: []
-  exitActions: []
+  exitActions:
+  - {fileID: 11400000, guid: 3863e45f4829fd44bbfcb05f00f74e97, type: 2}
   transitions: []

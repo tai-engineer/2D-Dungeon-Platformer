@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enterActions:
   - {fileID: 11400000, guid: fd4d98270aed522439378a418abd9c3c, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 739b45632aa49394e8b9be7c28c95652, type: 2}
   loopActions:
   - {fileID: 11400000, guid: d721ee10079d6004e8d8f18e17b5c9e6, type: 2}
   - {fileID: 11400000, guid: 31aed1b173d93ad43821a38261ae4aae, type: 2}
@@ -22,6 +22,6 @@ MonoBehaviour:
   exitActions:
   - {fileID: 11400000, guid: 18f7a2094dd61ff48929431120adb752, type: 2}
   transitions:
-  - decision: {fileID: 0}
-    trueState: {fileID: 0}
-    falseState: {fileID: 0}
+  - decision: {fileID: 11400000, guid: b046487ecf0c6014786c20ef58504d77, type: 2}
+    trueState: {fileID: 11400000, guid: 9a6e7fa4019e3514bb56caf4b806ab49, type: 2}
+    falseState: {fileID: 11400000}

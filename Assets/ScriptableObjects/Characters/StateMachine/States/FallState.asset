@@ -12,7 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9c9d4f4b70405b488afbd75b8b9826e, type: 3}
   m_Name: FallState
   m_EditorClassIdentifier: 
-  enterActions: []
-  loopActions: []
-  exitActions: []
-  transitions: []
+  enterActions:
+  - {fileID: 11400000, guid: a31be339a5f95494e9b46f06b4a134b7, type: 2}
+  loopActions:
+  - {fileID: 11400000, guid: d56f956becef3e441a1d26b72d9996cb, type: 2}
+  - {fileID: 11400000, guid: 31aed1b173d93ad43821a38261ae4aae, type: 2}
+  - {fileID: 11400000, guid: d721ee10079d6004e8d8f18e17b5c9e6, type: 2}
+  - {fileID: 11400000, guid: 9c3224ca4d2193a4c837a69de733de14, type: 2}
+  exitActions:
+  - {fileID: 11400000, guid: 435ffdcb05668864db8ea849a7540f30, type: 2}
+  transitions:
+  - decision: {fileID: 11400000, guid: 9a46459afbe7faf4b856da476682291d, type: 2}
+    trueState: {fileID: 11400000, guid: 8f05e2e558e835a45855d38a807f69aa, type: 2}
+    falseState: {fileID: 11400000}
