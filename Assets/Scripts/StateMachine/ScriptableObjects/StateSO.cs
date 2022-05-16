@@ -44,10 +44,11 @@ namespace DP2D
             for(int i = 0; i < transitions.Length; i++)
             {
                 bool decideSuceeded = transitions[i].decision.Decide(stateController);
-                if(decideSuceeded)
-                    stateController.TransitionToState(transitions[i].trueState);
-                else
-                    stateController.TransitionToState(transitions[i].falseState);
+                StateSO nextState = decideSuceeded ? transitions[i].trueState : transitions[i].falseState;
+
+                stateController.TransitionToState(nextState);
+
+                return;
             }
         }
     }
